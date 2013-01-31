@@ -17,23 +17,25 @@ namespace NuBot
         static void Main(string[] args)
         {
             // Entrypoint cannot be async :(
-            AsyncMain().Wait();
+            AsyncMain(args).Wait();
         }
 
-        static async Task AsyncMain()
+        static async Task AsyncMain(string[] args)
         {
+            var config = new DefaultRobotConfiguration("NuBot.", args);
             var factory = ConfigureLogging();
             var log = factory.GetLogger("Main");
-            var robot = new Robot("NuBot", factory);
+            var robot = new Robot("NuBot", factory, config);
             robot.Parts.Add(new JabbrListener());
 
             var robotTask = robot.Run();
             try
             {
                 log.Info("Robot is running, press ESC to stop");
-                SpinWait.SpinUntil(() => Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Escape);
+                await Task.WhenAny(Task.Factory.StartNew(() =>
+                    SpinWait.SpinUntil(() => Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Escape)),
+                    robotTask);
                 robot.Stop();
-                await robotTask;
             }
             catch (Exception ex)
             {

@@ -48,13 +48,22 @@ namespace NuBot.Core
             var tasks = Parts.Select(async part =>
             {
                 _logger.Trace("Attaching Part: {0}", part.Name);
-                await part.Run(this, _cts.Token);
-            }).Concat(new[] { Task.Factory.StartNew(() => SpinWait.SpinUntil(() => _cts.IsCancellationRequested)) }).ToArray();
+                try
+                {
+                    await part.Run(this, _cts.Token);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex.Message);
+                }
+            }).ToArray();
             
             _logger.Trace("Started Robot");
 
             // Wait until all tasks shut down
             await Task.WhenAll(tasks);
+
+            _logger.Trace("All Parts have shut down, stopping robot");
         }
 
         public void Stop()

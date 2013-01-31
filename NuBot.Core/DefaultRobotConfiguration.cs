@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,14 +16,16 @@ namespace NuBot.Core
         /// <summary>
         /// Sets up a default configuration which does NOT use Environment Variables as a fallback store
         /// </summary>
-        public DefaultRobotConfiguration() : this(false, null) { }
+        public DefaultRobotConfiguration() : this(false, null, null) { }
 
         /// <summary>
         /// Sets up a default configuration which does use Environment Variables as a fallback store
         /// </summary>
-        public DefaultRobotConfiguration(string environmentVariablePrefix) : this(true, environmentVariablePrefix) {}
+        public DefaultRobotConfiguration(string environmentVariablePrefix) : this(true, environmentVariablePrefix, null) {}
 
-        private DefaultRobotConfiguration(bool useEnvironmentVariables, string environmentVariablePrefix)
+        public DefaultRobotConfiguration(string environmentVariablePrefix, string[] commandLine) : this(true, environmentVariablePrefix, commandLine) { }
+
+        private DefaultRobotConfiguration(bool useEnvironmentVariables, string environmentVariablePrefix, string[] commandLine)
         {
             if (useEnvironmentVariables && String.IsNullOrEmpty(environmentVariablePrefix))
             {
@@ -32,6 +35,26 @@ namespace NuBot.Core
             Settings = new Dictionary<string, string>();
             UseEnvironmentVariables = useEnvironmentVariables;
             EnvironmentVariablePrefix = environmentVariablePrefix;
+
+            if (commandLine != null)
+            {
+                foreach (var arg in commandLine)
+                {
+                    string[] splitted = arg.Split('=');
+                    if (splitted.Length == 1)
+                    {
+                        Settings[splitted[0]] = Boolean.TrueString;
+                    }
+                    else if (splitted.Length == 2)
+                    {
+                        Settings[splitted[0]] = splitted[1];
+                    }
+                    else
+                    {
+                        throw new InvalidDataException("Argument format invalid. Expected key=value pairs");
+                    }
+                }
+            }
         }
 
         public string GetSetting(string key)
@@ -39,7 +62,7 @@ namespace NuBot.Core
             string value;
             if (!Settings.TryGetValue(key, out value))
             {
-                value = Environment.GetEnvironmentVariable(String.Concat(EnvironmentVariablePrefix, key));
+                value = Environment.GetEnvironmentVariable(String.Concat(EnvironmentVariablePrefix, key).Replace('.', '_'));
             }
             return value;
         }

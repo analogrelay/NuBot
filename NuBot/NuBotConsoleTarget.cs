@@ -15,7 +15,7 @@ namespace NuBot
             { LogLevel.Error, ColorPair.Foreground(ConsoleColor.Red) },
             { LogLevel.Fatal, new ColorPair(ConsoleColor.White, ConsoleColor.Red) },
             { LogLevel.Info, ColorPair.Foreground(ConsoleColor.Green) },
-            { LogLevel.Trace, ColorPair.Foreground(ConsoleColor.Gray) },
+            { LogLevel.Trace, ColorPair.Foreground(ConsoleColor.DarkGray) },
             { LogLevel.Warn, new ColorPair(ConsoleColor.Black, ConsoleColor.Yellow) }
         };
 

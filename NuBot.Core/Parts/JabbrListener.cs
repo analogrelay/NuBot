@@ -56,37 +56,61 @@ namespace NuBot.Core.Parts
         public async Task Run(IRobot robo, CancellationToken token)
         {
             // Get data from config if not specified
-            Host = Host ?? robo.Configuration.GetSetting(HostConfigKey, s => new Uri(s));
+            Host = Host ?? robo.Configuration.GetSetting(HostConfigKey, s => String.IsNullOrEmpty(s) ? null : new Uri(s));
             UserName = UserName ?? robo.Configuration.GetSetting(UserNameConfigKey);
             Password = Password ?? robo.Configuration.GetSetting(PasswordConfigKey);
-            Rooms = Rooms ?? robo.Configuration.GetSetting(RoomsConfigKey, s => s.Split(','));
+            Rooms = Rooms ?? robo.Configuration.GetSetting(RoomsConfigKey, s => String.IsNullOrEmpty(s) ? null : s.Split(','));
+
+            // Validate data
+            //  This is a rare case in which we DON'T want short-circuiting since we want to print as many "blah is required" messages as possible
+            if (!Require(robo, Host, HostConfigKey) |
+               !Require(robo, UserName, UserNameConfigKey) |
+               !Require(robo, Password, PasswordConfigKey) |
+               !Require(robo, Rooms, RoomsConfigKey))
+            {
+                return;
+            }
 
             // Connect JabbR Client
-            robo.Log.Info("Would connect with: ");
-            robo.Log.Info("Host: {0}", Host.AbsoluteUri);
-            robo.Log.Info("UserName: {0}", UserName);
-            robo.Log.Info("Password: {0}", Password);
-            robo.Log.Info("Rooms: {0}", String.Join(",", Rooms));
-            //var client = new JabbRClient(Host);
-            //try
-            //{
-            //    robo.Log.Trace("Connecting to JabbR");
-            //    var logOnInfo = await client.Connect(UserName, Password);
-            //    robo.Log.Trace("Connection Established");       
-            //    await new JabbrListenerWorker(logOnInfo, client, Rooms, robo).Run();
-            //}
-            //catch (SecurityException)
-            //{
-            //    robo.Log.Error("Invalid User Name or Password");
-            //}
-            //catch (HttpRequestException hrex)
-            //{
-            //    robo.Log.Error("http {0}", hrex.Message);
-            //}
-            //catch (Exception ex)
-            //{
-            //    robo.Log.Error(ex.Message);
-            //}
+            var client = new JabbRClient(Host);
+            try
+            {
+                robo.Log.Trace("Connecting to JabbR");
+                var logOnInfo = await client.Connect(UserName, Password);
+                robo.Log.Trace("Connection Established");
+                await new JabbrListenerWorker(logOnInfo, client, Rooms, robo).Run();
+            }
+            catch (SecurityException)
+            {
+                robo.Log.Error("Invalid User Name or Password");
+            }
+            catch (HttpRequestException hrex)
+            {
+                robo.Log.Error("http {0}", hrex.Message);
+            }
+            catch (Exception ex)
+            {
+                robo.Log.Error(ex.Message);
+            }
+        }
+
+        private bool Require(IRobot robo, string value, string settingName)
+        {
+            return Require(robo, String.IsNullOrEmpty(value), settingName);
+        }
+
+        private bool Require(IRobot robo, object value, string settingName)
+        {
+            return Require(robo, value == null, settingName);
+        }
+
+        private bool Require(IRobot robo, bool invalidCondition, string settingName)
+        {
+            if (invalidCondition)
+            {
+                robo.Log.Error("The {0} setting is required", settingName);
+            }
+            return !invalidCondition;
         }
     }
 }
