@@ -1,0 +1,3 @@
+[submodule "ext/JabbR.Client"]
+	path = ext/JabbR.Client
+	url = https://github.com/anurse/JabbR.Client.git
