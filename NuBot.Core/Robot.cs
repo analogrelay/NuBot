@@ -14,17 +14,22 @@ namespace NuBot.Core
         private RobotLog _log;
         private CancellationTokenSource _cts = new CancellationTokenSource();
 
+        public static readonly string DefaultRobotName = "NuBot";
+        public static readonly string DefaultEnvironmentVariablePrefix = "NuBot.";
+
         public IList<IPart> Parts { get; private set; }
         public string Name { get; private set; }
+        public IRobotConfiguration Configuration { get; private set; }
 
         public IRobotLog Log
         {
             get { return _log ?? (_log = new RobotLog(_logger)); }
         }
 
-        public Robot() : this("NuBot") { }
+        public Robot() : this(DefaultRobotName) { }
         public Robot(string name) : this(name, null) { }
-        public Robot(string name, LogFactory factory)
+        public Robot(string name, LogFactory factory) : this(name, factory, new DefaultRobotConfiguration(DefaultEnvironmentVariablePrefix)) { }
+        public Robot(string name, LogFactory factory, IRobotConfiguration configuration)
         {
             var loggerName = String.Format("Robot.{0}", name);
             _logger = factory == null ?
@@ -32,6 +37,7 @@ namespace NuBot.Core
                 factory.GetLogger(loggerName);
 
             Name = name;
+            Configuration = configuration;
             Parts = new List<IPart>();
         }
 

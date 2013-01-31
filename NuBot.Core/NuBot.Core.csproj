@@ -52,8 +52,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DefaultRobotConfiguration.cs" />
     <Compile Include="IPart.cs" />
     <Compile Include="IRobot.cs" />
+    <Compile Include="IRobotConfiguration.cs" />
     <Compile Include="IRobotLog.cs" />
     <Compile Include="Parts\JabbrListener.cs" />
     <Compile Include="Parts\JabbrListenerWorker.cs" />

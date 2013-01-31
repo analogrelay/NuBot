@@ -15,13 +15,15 @@ namespace NuBot.Core.Parts
     {
         private Uri _host;
         private IRobot _robo;
+        private string[] _rooms;
         private CancellationToken _cancellationToken;
         private CookieContainer _cookieJar;
 
-        public JabbrListenerWorker(Uri host, IRobot robo, CancellationToken cancellationToken, CookieContainer cookieJar)
+        public JabbrListenerWorker(Uri host, string[] rooms, IRobot robo, CancellationToken cancellationToken, CookieContainer cookieJar)
         {
             _host = host;
             _robo = robo;
+            _rooms = rooms;
             _cancellationToken = cancellationToken;
             _cookieJar = cookieJar;
         }
@@ -35,6 +37,9 @@ namespace NuBot.Core.Parts
                 CookieContainer = _cookieJar
             };
             var chatHub = hubConnection.CreateHubProxy("chat");
+            hubConnection.RegisterCallback(hr =>
+            {
+            });
 
             try
             {

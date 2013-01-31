@@ -25,10 +25,7 @@ namespace NuBot
             var factory = ConfigureLogging();
             var log = factory.GetLogger("Main");
             var robot = new Robot("NuBot", factory);
-            robot.Parts.Add(new JabbrListener(
-                new Uri("https://jabbr.net"),
-                "",
-                ""));
+            robot.Parts.Add(new JabbrListener());
 
             var robotTask = robot.Run();
             try

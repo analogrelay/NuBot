@@ -17,6 +17,11 @@ namespace NuBot.Core.Parts
         private const string UserNameParamName = "username";
         private const string PasswordParamName = "password";
 
+        public static readonly string HostConfigKey = "Jabbr.Host";
+        public static readonly string UserNameConfigKey = "Jabbr.UserName";
+        public static readonly string PasswordConfigKey = "Jabbr.Password";
+        public static readonly string RoomsConfigKey = "Jabbr.Rooms";
+
         private CookieContainer _cookieJar = new CookieContainer();
         
         public string Name { get { return "JabbR Listener"; } }
@@ -24,6 +29,7 @@ namespace NuBot.Core.Parts
         public Uri Host { get; private set; }
         public string UserName { get; private set; }
         public string Password { get; private set; }
+        public string[] Rooms { get; private set; }
 
         private HttpClient _client;
         private HttpClient Client
@@ -38,15 +44,26 @@ namespace NuBot.Core.Parts
             }
         }
 
-        public JabbrListener(Uri host, string username, string password)
+        public JabbrListener()
+        {
+        }
+
+        public JabbrListener(Uri host, string username, string password, string[] rooms)
         {
             Host = host;
             UserName = username;
             Password = password;
+            Rooms = rooms;
         }
 
         public async Task Run(IRobot robo, CancellationToken token)
         {
+            // Get data from config if not specified
+            Host = Host ?? robo.Configuration.GetSetting(HostConfigKey, s => new Uri(s));
+            UserName = UserName ?? robo.Configuration.GetSetting(UserNameConfigKey);
+            Password = Password ?? robo.Configuration.GetSetting(PasswordConfigKey);
+            Rooms = Rooms ?? robo.Configuration.GetSetting(RoomsConfigKey, s => s.Split(','));
+
             // Authenticate with JabbR and get a cookie
             var url = Host.AbsoluteUri + "account/login";
             robo.Log.Trace("http POST {0}", url);
@@ -60,15 +77,16 @@ namespace NuBot.Core.Parts
             robo.Log.Trace("http {0} {1}", (int)response.StatusCode, url);
             if (response.IsSuccessStatusCode)
             {
+                var content = await response.Content.ReadAsStringAsync();
                 var cookies = _cookieJar.GetCookies(Host);
                 if (cookies[JabbrCookieName] == null)
                 {
-                    robo.Log.Error("Didn't get a cookie from JabbR");
+                    robo.Log.Error("Didn't get a cookie from JabbR. Is your user name and password correct?");
                 }
                 else
                 {
                     // Start the worker loop
-                    await new JabbrListenerWorker(Host, robo, token, _cookieJar).Run();
+                    await new JabbrListenerWorker(Host, Rooms, robo, token, _cookieJar).Run();
                 }
             }
         }

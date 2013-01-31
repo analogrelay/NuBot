@@ -9,6 +9,7 @@ namespace NuBot.Core
     public interface IRobot
     {
         IRobotLog Log { get; }
+        IRobotConfiguration Configuration { get; }
         Task Run();
         void Stop();
     }
