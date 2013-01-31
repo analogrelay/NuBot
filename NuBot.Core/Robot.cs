@@ -59,11 +59,6 @@ namespace NuBot.Core
             }).ToArray();
             
             _logger.Trace("Started Robot");
-
-            // Wait until all tasks shut down
-            await Task.WhenAll(tasks);
-
-            _logger.Trace("All Parts have shut down, stopping robot");
         }
 
         public void Stop()

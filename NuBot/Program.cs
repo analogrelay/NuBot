@@ -32,9 +32,7 @@ namespace NuBot
             try
             {
                 log.Info("Robot is running, press ESC to stop");
-                await Task.WhenAny(Task.Factory.StartNew(() =>
-                    SpinWait.SpinUntil(() => Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Escape)),
-                    robotTask);
+                await Task.Factory.StartNew(() => SpinWait.SpinUntil(() => Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Escape));
                 robot.Stop();
             }
             catch (Exception ex)
