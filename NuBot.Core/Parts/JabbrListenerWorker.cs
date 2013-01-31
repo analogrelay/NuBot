@@ -5,6 +5,8 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using JabbR.Client;
+using JabbR.Client.Models;
 using Microsoft.AspNet.SignalR.Client.Http;
 using Microsoft.AspNet.SignalR.Client.Hubs;
 using Microsoft.AspNet.SignalR.Client.Transports;
@@ -13,55 +15,43 @@ namespace NuBot.Core.Parts
 {
     public class JabbrListenerWorker
     {
-        private Uri _host;
         private IRobot _robo;
         private string[] _rooms;
-        private CancellationToken _cancellationToken;
-        private CookieContainer _cookieJar;
+        private JabbRClient _client;
+        private LogOnInfo _logOnInfo;
 
-        public JabbrListenerWorker(Uri host, string[] rooms, IRobot robo, CancellationToken cancellationToken, CookieContainer cookieJar)
+        public JabbrListenerWorker(LogOnInfo logOnInfo, JabbRClient client, string[] rooms, IRobot robo)
         {
-            _host = host;
             _robo = robo;
             _rooms = rooms;
-            _cancellationToken = cancellationToken;
-            _cookieJar = cookieJar;
+            _client = client;
+            _logOnInfo = logOnInfo;
         }
 
         public async Task Run()
         {
-            _robo.Log.Trace("Connecting to JabbR");
-            // Connect to the chat hub
-            var hubConnection = new HubConnection(_host.AbsoluteUri)
+            // Leave rooms we're not supposed to be in
+            var extraRooms = _logOnInfo.Rooms.Select(r => r.Name).Except(_rooms);
+            if (extraRooms.Any())
             {
-                CookieContainer = _cookieJar
-            };
-            var chatHub = hubConnection.CreateHubProxy("chat");
-            hubConnection.RegisterCallback(hr =>
-            {
-            });
-
-            try
-            {
-                await hubConnection.Start();
-
-                await chatHub.Invoke("Join");
-
-                _robo.Log.Trace("Connected!");
-
-                // Set up listener
-                chatHub.On("addUser", HandleAddUser);
-
-                while (!_cancellationToken.IsCancellationRequested)
-                {
-                    // Yield the task
-                    await Task.Yield();
-                }
+                await _client.LeaveRooms(extraRooms);
             }
-            finally
+
+            // Join rooms we're not in
+            extraRooms = _rooms.Except(_logOnInfo.Rooms.Select(r => r.Name));
+            if (extraRooms.Any())
             {
-                hubConnection.Stop();
+                await _client.JoinRooms(extraRooms);
             }
+
+            // Say hi in all our rooms
+            foreach (var room in _rooms)
+            {
+                await _client.Send("Hello World!", room);
+            }
+
+            // Leave :)
+            _client.Disconnect();
         }
 
         private void HandleAddUser(dynamic data)

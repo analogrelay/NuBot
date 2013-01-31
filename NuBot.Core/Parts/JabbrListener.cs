@@ -7,16 +7,13 @@ using System.Security;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using JabbR.Client;
 using Microsoft.AspNet.SignalR.Client.Hubs;
 
 namespace NuBot.Core.Parts
 {
     public class JabbrListener : IPart
     {
-        private const string JabbrCookieName = "jabbr.userToken";
-        private const string UserNameParamName = "username";
-        private const string PasswordParamName = "password";
-
         public static readonly string HostConfigKey = "Jabbr.Host";
         public static readonly string UserNameConfigKey = "Jabbr.UserName";
         public static readonly string PasswordConfigKey = "Jabbr.Password";
@@ -64,31 +61,32 @@ namespace NuBot.Core.Parts
             Password = Password ?? robo.Configuration.GetSetting(PasswordConfigKey);
             Rooms = Rooms ?? robo.Configuration.GetSetting(RoomsConfigKey, s => s.Split(','));
 
-            // Authenticate with JabbR and get a cookie
-            var url = Host.AbsoluteUri + "account/login";
-            robo.Log.Trace("http POST {0}", url);
-            var response = await Client.PostAsync(
-                url,
-                new FormUrlEncodedContent(new[] {
-                    new KeyValuePair<string, string>(UserNameParamName, UserName),
-                    new KeyValuePair<string, string>(PasswordParamName, Password)
-                }));
-
-            robo.Log.Trace("http {0} {1}", (int)response.StatusCode, url);
-            if (response.IsSuccessStatusCode)
-            {
-                var content = await response.Content.ReadAsStringAsync();
-                var cookies = _cookieJar.GetCookies(Host);
-                if (cookies[JabbrCookieName] == null)
-                {
-                    robo.Log.Error("Didn't get a cookie from JabbR. Is your user name and password correct?");
-                }
-                else
-                {
-                    // Start the worker loop
-                    await new JabbrListenerWorker(Host, Rooms, robo, token, _cookieJar).Run();
-                }
-            }
+            // Connect JabbR Client
+            robo.Log.Info("Would connect with: ");
+            robo.Log.Info("Host: {0}", Host.AbsoluteUri);
+            robo.Log.Info("UserName: {0}", UserName);
+            robo.Log.Info("Password: {0}", Password);
+            robo.Log.Info("Rooms: {0}", String.Join(",", Rooms));
+            //var client = new JabbRClient(Host);
+            //try
+            //{
+            //    robo.Log.Trace("Connecting to JabbR");
+            //    var logOnInfo = await client.Connect(UserName, Password);
+            //    robo.Log.Trace("Connection Established");       
+            //    await new JabbrListenerWorker(logOnInfo, client, Rooms, robo).Run();
+            //}
+            //catch (SecurityException)
+            //{
+            //    robo.Log.Error("Invalid User Name or Password");
+            //}
+            //catch (HttpRequestException hrex)
+            //{
+            //    robo.Log.Error("http {0}", hrex.Message);
+            //}
+            //catch (Exception ex)
+            //{
+            //    robo.Log.Error(ex.Message);
+            //}
         }
     }
 }
