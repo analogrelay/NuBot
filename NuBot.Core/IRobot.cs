@@ -8,6 +8,8 @@ namespace NuBot.Core
 {
     public interface IRobot
     {
-        void Log(string message);
+        IRobotLog Log { get; }
+        Task Run();
+        void Stop();
     }
 }
