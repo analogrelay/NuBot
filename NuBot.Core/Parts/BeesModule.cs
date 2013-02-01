@@ -8,9 +8,11 @@ using System.Threading.Tasks;
 using NuBot.Core.Messages;
 using System.Text.RegularExpressions;
 using NuBot.Core.Services;
+using System.ComponentModel.Composition;
 
 namespace NuBot.Core.Parts
 {
+    [Export(typeof(IPart))]
     public class BeesModule : IPart
     {
         public string Name

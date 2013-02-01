@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -8,6 +9,7 @@ using NuBot.Core.Messages;
 
 namespace NuBot.Core.Parts
 {
+    [Export(typeof(IPart))]
     public class ChatTracer : IPart
     {
         public string Name

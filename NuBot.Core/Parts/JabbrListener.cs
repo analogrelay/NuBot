@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -13,6 +14,7 @@ using NuBot.Core.Services;
 
 namespace NuBot.Core.Parts
 {
+    [Export(typeof(IPart))]
     public class JabbrListener : IPart
     {
         public static readonly string HostConfigKey = "Jabbr.Host";

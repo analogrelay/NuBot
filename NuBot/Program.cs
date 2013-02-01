@@ -25,12 +25,10 @@ namespace NuBot
             var config = new DefaultRobotConfiguration("NuBot.", args);
             var factory = ConfigureLogging();
             var log = factory.GetLogger("Main");
-            var robot = new Robot("NuBot", factory, config);
-            robot.Parts.Add(new JabbrListener());
-            robot.Parts.Add(new ChatTracer());
-            robot.Parts.Add(new TrollModule());
-            robot.Parts.Add(new BeesModule());
 
+            var composer = new Composer();
+            var robot = composer.ComposeRobot("NuBot", factory, config);
+            
             robot.Start();
             try
             {
