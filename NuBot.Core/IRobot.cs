@@ -18,6 +18,7 @@ namespace NuBot
         IRobotLog Log { get; }
         IRobotConfiguration Configuration { get; }
         IList<IPart> Parts { get; }
+        IHttpHost HttpHost { get; }
         void Start();
         void Stop();
     }

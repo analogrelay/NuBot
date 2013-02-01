@@ -64,11 +64,24 @@ namespace NuBot
             robo.Bus.Send(new SendChatMessage(message, room));
         }
 
+        /// <summary>
+        /// Sends the specified /me action to the specified room
+        /// </summary>
+        /// <param name="robo">The robot on which to register the handler</param>
+        /// <param name="message">The message to send</param>
+        /// <param name="room">The room to send it to</param>
+        public static void SendSlashMe(this IRobot robo, string message, string room)
+        {
+            robo.Bus.Send(new SendChatMessage(message, room, meMessage: true));
+        }
+
         private static void AddMessageHandler(IRobot robo, string phrase, Action<ChatMessage> action, bool directedAtRobot)
         {
             robo.Bus
                 .Observe<ChatMessage>()
-                .Where(m => (!directedAtRobot || m.DirectedAtRobot) && (String.IsNullOrEmpty(phrase) || MessageProcessor.ContainsWordsInOrder(m.Tokens, phrase)))
+                .Where(m => (!directedAtRobot || m.DirectedAtRobot) && 
+                            (String.IsNullOrEmpty(phrase) || MessageProcessor.ContainsWordsInOrder(m.Tokens, phrase)) &&
+                            !m.FromRobot)
                 .Subscribe(action);
         }
     }

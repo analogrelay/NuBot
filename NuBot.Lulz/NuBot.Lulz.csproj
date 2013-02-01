@@ -41,6 +41,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BeesModule.cs" />
+    <Compile Include="GreetingModule.cs" />
+    <Compile Include="PraiseAndrewModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShutUpFowlerModule.cs" />
     <Compile Include="TrollModule.cs" />

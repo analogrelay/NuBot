@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace NuBot.Lulz
 {
+    // Disable this... for now ;)
     [Export(typeof(IPart))]
     public class ShutUpFowlerModule : Part
     {
@@ -23,6 +24,10 @@ namespace NuBot.Lulz
                 {
                     robo.Say("Shut up Fowler!", m.Room);
                 }
+            });
+            robo.Hear("fowler", m => {
+                robo.Say("*sigh* Fowler...", m.Room);
+                robo.SendSlashMe("Rolls Eyes", m.Room);
             });
         }
     }

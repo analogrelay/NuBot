@@ -18,13 +18,14 @@ namespace NuBot.Chat.JabbR
         private LogOnInfo _logOnInfo;
         private string[] _robotNames;
 
-        public JabbrListenerWorker(LogOnInfo logOnInfo, JabbRClient client, string[] rooms, IRobot robo, string[] robotNames)
+        public JabbrListenerWorker(LogOnInfo logOnInfo, JabbRClient client, string[] rooms, IRobot robo, string[] robotNames, string userName)
         {
             _robo = robo;
             _rooms = rooms;
             _client = client;
             _logOnInfo = logOnInfo;
             _robotNames = robotNames;
+            _userName = userName;
         }
 
         public async Task Run(CancellationToken token)
@@ -50,6 +51,8 @@ namespace NuBot.Chat.JabbR
                 }
             }
 
+            await _client.SetFlag("CA");
+
             // Attach events
             _client.MessageReceived += _client_MessageReceived;
 
@@ -68,7 +71,14 @@ namespace NuBot.Chat.JabbR
 
         private void SendMessage(SendChatMessage msg)
         {
-            _client.Send(msg.Message, msg.Room);
+            if (msg.MeMessage)
+            {
+                _client.Send("/me " + msg.Message, msg.Room);
+            }
+            else
+            {
+                _client.Send(msg.Message, msg.Room);
+            }
         }
 
         void _client_MessageReceived(Message message, string room)
@@ -83,7 +93,8 @@ namespace NuBot.Chat.JabbR
                 message.When,
                 message.Id,
                 message.Content, 
-                tokens));
+                tokens,
+                String.Equals(message.User.Name, _userName, StringComparison.OrdinalIgnoreCase)));
         }
     }
 }

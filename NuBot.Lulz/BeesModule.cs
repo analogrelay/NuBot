@@ -9,7 +9,7 @@ using System.ComponentModel.Composition;
 
 namespace NuBot.Lulz
 {
-    [Export(typeof(IPart))]
+    //[Export(typeof(IPart))]
     public class BeesModule : Part
     {
         public override string Name

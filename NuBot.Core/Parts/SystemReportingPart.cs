@@ -58,6 +58,10 @@ namespace NuBot.Parts
             {
                 builder.AppendLine(String.Format("{0} v{1}", part.Name, part.GetType().Assembly.GetName().Version.ToString()));
             }
+            if (robo.HttpHost != null)
+            {
+                builder.AppendLine(String.Format("HTTP Hosting Engine: {0} v{1}", robo.HttpHost.Name, robo.HttpHost.GetType().Assembly.GetName().Version.ToString()));
+            }
             return builder.ToString();
         }
     }
