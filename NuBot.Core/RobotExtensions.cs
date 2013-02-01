@@ -4,10 +4,10 @@ using System.Reactive.Linq;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NuBot.Core.Messages;
-using NuBot.Core.Services;
+using NuBot.Messages;
+using NuBot.Services;
 
-namespace NuBot.Core
+namespace NuBot
 {
     public static class RobotExtensions
     {

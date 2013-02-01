@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NuBot.Core
+namespace NuBot
 {
     public class DefaultRobotConfiguration : IRobotConfiguration
     {

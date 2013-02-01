@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using NLog;
 
-namespace NuBot.Core
+namespace NuBot
 {
     public class Composer
     {

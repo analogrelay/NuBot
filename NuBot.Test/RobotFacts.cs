@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Moq;
 using NLog;
 using NLog.Targets;
-using NuBot.Core;
+using NuBot;
 using Xunit;
 
 namespace NuBot.Test

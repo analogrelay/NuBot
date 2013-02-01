@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using NLog;
 
-namespace NuBot.Core
+namespace NuBot
 {
     public class RobotLog : IRobotLog
     {

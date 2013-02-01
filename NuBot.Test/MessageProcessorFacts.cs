@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NuBot.Core.Services;
+using NuBot.Services;
 using Xunit;
 using Xunit.Extensions;
 

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NLog.Targets;
-using NuBot.Core;
+using NuBot;
 using Xunit;
 
 namespace NuBot.Test

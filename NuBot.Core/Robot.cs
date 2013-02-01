@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using NLog;
 
-namespace NuBot.Core
+namespace NuBot
 {
     [Export(typeof(IRobotFactory))]
     public class RobotFactory : IRobotFactory

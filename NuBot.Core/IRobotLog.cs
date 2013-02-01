@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace NuBot.Core
+namespace NuBot
 {
     public interface IRobotLog
     {

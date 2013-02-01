@@ -11,7 +11,7 @@ using System.Reactive.Subjects;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NuBot.Core
+namespace NuBot
 {
     [Export(typeof(IMessageBus))]
     public class MessageBus : IMessageBus

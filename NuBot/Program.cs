@@ -7,8 +7,6 @@ using System.Threading.Tasks;
 using NLog;
 using NLog.Config;
 using NLog.Targets;
-using NuBot.Core;
-using NuBot.Core.Parts;
 
 namespace NuBot
 {
@@ -49,7 +47,7 @@ namespace NuBot
             LoggingConfiguration config = new LoggingConfiguration();
 
             // Targets
-            NuBotConsoleTarget target = new NuBotConsoleTarget();
+            SnazzyConsoleTarget target = new SnazzyConsoleTarget();
             target.Layout = "${message}";
             config.AddTarget("console", target);
 

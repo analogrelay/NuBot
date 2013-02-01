@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace NuBot.Core
+namespace NuBot
 {
     public abstract class SimplePart : IPart
     {

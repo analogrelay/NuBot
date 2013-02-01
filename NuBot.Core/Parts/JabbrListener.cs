@@ -10,9 +10,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using JabbR.Client;
 using Microsoft.AspNet.SignalR.Client.Hubs;
-using NuBot.Core.Services;
 
-namespace NuBot.Core.Parts
+namespace NuBot.Parts
 {
     [Export(typeof(IPart))]
     public class JabbrListener : IPart

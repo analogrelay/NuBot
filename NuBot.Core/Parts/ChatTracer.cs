@@ -5,9 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using NuBot.Core.Messages;
 
-namespace NuBot.Core.Parts
+namespace NuBot.Parts
 {
     [Export(typeof(IPart))]
     public class ChatTracer : SimplePart

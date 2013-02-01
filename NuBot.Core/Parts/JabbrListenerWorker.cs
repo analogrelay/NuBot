@@ -11,10 +11,10 @@ using JabbR.Client.Models;
 using Microsoft.AspNet.SignalR.Client.Http;
 using Microsoft.AspNet.SignalR.Client.Hubs;
 using Microsoft.AspNet.SignalR.Client.Transports;
-using NuBot.Core.Services;
-using NuBot.Core.Messages;
+using NuBot.Messages;
+using NuBot.Services;
 
-namespace NuBot.Core.Parts
+namespace NuBot.Parts
 {
     public class JabbrListenerWorker
     {
