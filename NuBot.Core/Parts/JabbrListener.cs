@@ -61,8 +61,7 @@ namespace NuBot.Core.Parts
             UserName = UserName ?? robo.Configuration.GetSetting(UserNameConfigKey);
             Password = Password ?? robo.Configuration.GetSetting(PasswordConfigKey);
             Rooms = Rooms ?? robo.Configuration.GetSetting(RoomsConfigKey, s => String.IsNullOrEmpty(s) ? null : s.Split(','));
-            var scanner = new MessageScanner(robo.Name, UserName);
-
+            
             // Validate data
             //  This is a rare case in which we DON'T want short-circuiting since we want to print as many "blah is required" messages as possible
             if (!Require(robo, Host, HostConfigKey) |
@@ -80,7 +79,7 @@ namespace NuBot.Core.Parts
                 robo.Log.Trace("Connecting to JabbR");
                 var logOnInfo = await client.Connect(UserName, Password);
                 robo.Log.Trace("Connection Established");
-                await new JabbrListenerWorker(scanner, logOnInfo, client, Rooms, robo, UserName).Run(token);
+                await new JabbrListenerWorker(new MessageProcessor(), logOnInfo, client, Rooms, robo, new[] { robo.Name, UserName }).Run(token);
             }
             catch (SecurityException)
             {

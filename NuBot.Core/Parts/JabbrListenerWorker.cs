@@ -23,16 +23,17 @@ namespace NuBot.Core.Parts
         private string _userName;
         private JabbRClient _client;
         private LogOnInfo _logOnInfo;
-        private MessageScanner _scanner;
+        private MessageProcessor _processor;
+        private string[] _robotNames;
 
-        public JabbrListenerWorker(MessageScanner scanner, LogOnInfo logOnInfo, JabbRClient client, string[] rooms, IRobot robo, string userName)
+        public JabbrListenerWorker(MessageProcessor processor, LogOnInfo logOnInfo, JabbRClient client, string[] rooms, IRobot robo, string[] robotNames)
         {
             _robo = robo;
             _rooms = rooms;
             _client = client;
             _logOnInfo = logOnInfo;
-            _userName = userName;
-            _scanner = scanner;
+            _processor = processor;
+            _robotNames = robotNames;
         }
 
         public async Task Run(CancellationToken token)
@@ -76,14 +77,16 @@ namespace NuBot.Core.Parts
         void _client_MessageReceived(Message message, string room)
         {
             // Process the message and put it on the bus
-            var directedAtRobot = _scanner.IsForRobot(message.Content);
+            var tokens = _processor.Tokenize(message.Content);
+            var directedAtRobot = _processor.IsDirectedAtRobot(tokens, _robotNames);
             _robo.Bus.Send(new ChatMessage(
                 directedAtRobot,
                 message.User.Name,
                 room,
                 message.When,
+                message.Id,
                 message.Content, 
-                message.Id));
+                tokens));
         }
     }
 }

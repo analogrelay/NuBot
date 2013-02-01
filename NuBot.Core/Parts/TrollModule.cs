@@ -7,15 +7,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using NuBot.Core.Messages;
 using System.Text.RegularExpressions;
+using NuBot.Core.Services;
 
 namespace NuBot.Core.Parts
 {
     public class TrollModule : IPart
     {
-        private Regex[] _trollme = new[] {
-            new Regex(@".*\s+troll me($|\s+.*)")
-        };
-
         private Random _rand = new Random();
 
         private string[] trolls = new[] {
@@ -31,8 +28,9 @@ namespace NuBot.Core.Parts
 
         public Task Run(IRobot robo, CancellationToken cancelToken)
         {
+            MessageProcessor processor = new MessageProcessor();
             robo.Bus.Observe<ChatMessage>()
-                .Where(m => m.DirectedAtRobot && IsTroll(m))
+                .Where(m => m.DirectedAtRobot && processor.ContainsWordsInOrder(m.Tokens, "troll me"))
                 .Subscribe(msg =>
                 {
                     int item = _rand.Next(0, 2);
@@ -41,11 +39,6 @@ namespace NuBot.Core.Parts
                         msg.Room));
                 });
             return Task.FromResult<object>(null);
-        }
-
-        private bool IsTroll(ChatMessage m)
-        {
-            return _trollme.Any(r => r.IsMatch(m.Content));
         }
     }
 }

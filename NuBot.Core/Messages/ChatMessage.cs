@@ -13,8 +13,9 @@ namespace NuBot.Core.Messages
         public string Room { get; private set; }
         public string Content { get; private set; }
         public string Id { get; private set; }
+        public IEnumerable<string> Tokens { get; private set; }
 
-        public ChatMessage(bool directedAtRobot, string from, string room, DateTimeOffset when, string content, string id)
+        public ChatMessage(bool directedAtRobot, string from, string room, DateTimeOffset when, string id, string content, IEnumerable<string> tokens)
         {
             DirectedAtRobot = directedAtRobot;
             From = from;
@@ -22,6 +23,7 @@ namespace NuBot.Core.Messages
             When = when;
             Content = content;
             Id = id;
+            Tokens = tokens;
         }
     }
 }

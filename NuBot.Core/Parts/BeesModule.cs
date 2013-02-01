@@ -7,15 +7,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using NuBot.Core.Messages;
 using System.Text.RegularExpressions;
+using NuBot.Core.Services;
 
 namespace NuBot.Core.Parts
 {
     public class BeesModule : IPart
     {
-        private Regex[] _bees = new[] {
-            new Regex(@".*(^|\s+)bees(\?|\!|\,|\.)?($|\s+.*)")
-        };
-
         public string Name
         {
             get { return "Bees Module"; }
@@ -23,8 +20,9 @@ namespace NuBot.Core.Parts
 
         public Task Run(IRobot robo, CancellationToken cancelToken)
         {
+            MessageProcessor processor = new MessageProcessor();
             robo.Bus.Observe<ChatMessage>()
-                .Where(m => IsBees(m))
+                .Where(m => processor.ContainsWordsInOrder(m.Tokens, "bees"))
                 .Subscribe(msg =>
                 {
                     robo.Bus.Send(new SendChatMessage(
@@ -32,11 +30,6 @@ namespace NuBot.Core.Parts
                         msg.Room));
                 });
             return Task.FromResult<object>(null);
-        }
-
-        private bool IsBees(ChatMessage m)
-        {
-            return _bees.Any(r => r.IsMatch(m.Content));
         }
     }
 }
