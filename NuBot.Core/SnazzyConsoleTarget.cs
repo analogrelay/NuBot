@@ -11,11 +11,11 @@ namespace NuBot
     {
         private static Dictionary<LogLevel, ColorPair> _colorTable = new Dictionary<LogLevel, ColorPair>()
         {
-            { LogLevel.Debug, ColorPair.Foreground(ConsoleColor.Magenta) },
-            { LogLevel.Error, ColorPair.Foreground(ConsoleColor.Red) },
+            { LogLevel.Debug, ColorPair.ForegroundOnly(ConsoleColor.Magenta) },
+            { LogLevel.Error, ColorPair.ForegroundOnly(ConsoleColor.Red) },
             { LogLevel.Fatal, new ColorPair(ConsoleColor.White, ConsoleColor.Red) },
-            { LogLevel.Info, ColorPair.Foreground(ConsoleColor.Green) },
-            { LogLevel.Trace, ColorPair.Foreground(ConsoleColor.DarkGray) },
+            { LogLevel.Info, ColorPair.ForegroundOnly(ConsoleColor.Green) },
+            { LogLevel.Trace, ColorPair.ForegroundOnly(ConsoleColor.DarkGray) },
             { LogLevel.Warn, new ColorPair(ConsoleColor.Black, ConsoleColor.Yellow) }
         };
 
@@ -58,15 +58,59 @@ namespace NuBot
             }
             levelName = levelName.PadRight(_levelLength).Substring(0, _levelLength);
 
-            // Write Level
-            Console.Write(levelName);
+            // Break the message in to lines as necessary
+            var message = Layout.Render(logEvent);
+            var lines = new List<string>();
+            var prefix = levelName + ": ";
+            var fullMessage = prefix + message;
+            var maxWidth = Console.BufferWidth - 2;
+            while (fullMessage.Length > maxWidth)
+            {
+                int end = maxWidth - prefix.Length;
+                int spaceIndex = message.LastIndexOf(' ', Math.Min(end, message.Length - 1));
+                if (spaceIndex < 10)
+                {
+                    spaceIndex = end;
+                }
+                lines.Add(message.Substring(0, spaceIndex).Trim());
+                message = message.Substring(spaceIndex).Trim();
+                fullMessage = prefix + message;
+            }
+            lines.Add(message);
 
-            // Reset foreground color
-            Console.ForegroundColor = originalForeground;
-            
-            // Write message
-            Console.Write(": ");
-            Console.Write(Layout.Render(logEvent));
+            // Write lines
+            bool first = true;
+            foreach (var line in lines.Where(l => !String.IsNullOrWhiteSpace(l)))
+            {
+                if (first)
+                {
+                    first = false;
+                }
+                else
+                {
+                    Console.WriteLine();
+                }
+
+                // Set Foreground
+                if (pair.ForegroundColor != null)
+                {
+                    Console.ForegroundColor = pair.ForegroundColor.Value;
+                }
+
+                // Write Level
+                Console.Write(levelName);
+
+                // Reset foreground color, but only if there's no background color.
+                // Why? Because if there's a background color, there's a foreground color that was specified explicitly and it would be good to preserve that
+                if (pair.BackgroundColor == null)
+                {
+                    Console.ForegroundColor = originalForeground;
+                }
+
+                // Write message
+                Console.Write(": ");
+                Console.Write(line);
+            }
 
             // Reset colors and end the line
             Console.ForegroundColor = originalForeground;

@@ -54,7 +54,7 @@ namespace NuBot.Chat.JabbR
             _client.MessageReceived += _client_MessageReceived;
 
             // Attach to the bus
-            _robo.Bus.Listen<SendChatMessage>(SendMessage);
+            _robo.Bus.On<SendChatMessage>(SendMessage);
             
             // Wait until terminated and disconnect
             token.Register(() => {

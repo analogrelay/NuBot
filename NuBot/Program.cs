@@ -28,16 +28,16 @@ namespace NuBot
             var composer = new Composer();
             var robot = composer.ComposeRobot("NuBot", factory, config);
             
-            robot.Start();
             try
             {
+                robot.Start();
                 log.Info("Press ESC to shut down the robot");
                 await Task.Factory.StartNew(() => SpinWait.SpinUntil(() => Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Escape));
                 robot.Stop();
             }
             catch (Exception ex)
             {
-                log.Error(ex.Message);
+                log.Error("{0} - {1}", ex.GetType().FullName, ex.Message);
             }
             log.Info("Robot shut down.");
         }
@@ -52,7 +52,7 @@ namespace NuBot
             config.AddTarget("console", target);
 
             // Rules
-            LoggingRule rule = new LoggingRule("*", LogLevel.Info, target);
+            LoggingRule rule = new LoggingRule("*", LogLevel.Trace, target);
             config.LoggingRules.Add(rule);
 
             // Create factory

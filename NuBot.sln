@@ -20,6 +20,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuBot.Lulz", "NuBot.Lulz\Nu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuBot.Chat.JabbR", "NuBot.Chat.JabbR\NuBot.Chat.JabbR.csproj", "{A4DF61C1-0BC4-4D19-AC42-C68AF8E12686}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuBot.Http.Katana", "NuBot.Http.Katana\NuBot.Http.Katana.csproj", "{0C4FF756-A6D7-4104-B167-28E13FD05700}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{A4DF61C1-0BC4-4D19-AC42-C68AF8E12686}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4DF61C1-0BC4-4D19-AC42-C68AF8E12686}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4DF61C1-0BC4-4D19-AC42-C68AF8E12686}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C4FF756-A6D7-4104-B167-28E13FD05700}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C4FF756-A6D7-4104-B167-28E13FD05700}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C4FF756-A6D7-4104-B167-28E13FD05700}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C4FF756-A6D7-4104-B167-28E13FD05700}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

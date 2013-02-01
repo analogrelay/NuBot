@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 namespace NuBot.Parts
 {
     [Export(typeof(IPart))]
-    public class ChatTracer : SimplePart
+    public class ChatTracer : Part
     {
         public override string Name
         {
             get { return "Chat Tracer"; }
         }
 
-        public override void Run(IRobot robo)
+        public override void Attach(IRobot robo, CancellationToken token)
         {
             robo.Hear(msg =>
             {

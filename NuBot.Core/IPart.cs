@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Owin;
 
 namespace NuBot
 {
     public interface IPart
     {
         string Name { get; }
-        Task Run(IRobot robo, CancellationToken cancelToken);
+        void Attach(IRobot robo, CancellationToken token);
+        void AttachToHttpApp(IRobot robo, IAppBuilder app);
     }
 }

@@ -37,14 +37,14 @@ namespace NuBot.Test
                 // Arrage
                 var robot = new Robot();
                 var mockPart = new Mock<IPart>();
-                mockPart.Setup(p => p.Run(It.IsAny<IRobot>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(""));
+                mockPart.Setup(p => p.Attach(It.IsAny<IRobot>(), It.IsAny<CancellationToken>()));
                 robot.Parts.Add(mockPart.Object);
                 
                 // Act
                 robot.Start();
 
                 // Assert
-                mockPart.Verify(p => p.Run(robot, It.IsAny<CancellationToken>()));
+                mockPart.Verify(p => p.Attach(robot, It.IsAny<CancellationToken>()));
             }
         }
     }

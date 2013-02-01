@@ -14,7 +14,7 @@ namespace NuBot
 
     public static class MessageBusExtensions
     {
-        public static void Listen<T>(this IMessageBus bus, Action<T> action)
+        public static void On<T>(this IMessageBus bus, Action<T> action)
         {
             bus.Observe<T>().Subscribe(action);
         }

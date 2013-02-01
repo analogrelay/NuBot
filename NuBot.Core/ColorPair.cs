@@ -17,14 +17,9 @@ namespace NuBot
             BackgroundColor = background;
         }
 
-        public static ColorPair Foreground(ConsoleColor color)
+        public static ColorPair ForegroundOnly(ConsoleColor color)
         {
             return new ColorPair(color, null);
-        }
-
-        public static ColorPair Background(ConsoleColor color)
-        {
-            return new ColorPair(null, color);
         }
     }
 }

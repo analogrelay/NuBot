@@ -4,19 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Owin;
 
 namespace NuBot
 {
-    public abstract class SimplePart : IPart
+    public abstract class Part : IPart
     {
         public abstract string Name { get; }
 
-        public abstract void Run(IRobot robo);
-
-        Task IPart.Run(IRobot robo, CancellationToken cancelToken)
+        public virtual void Attach(IRobot robo, CancellationToken token)
         {
-            Run(robo);
-            return Task.FromResult<object>(null);
+        }
+
+        public virtual void AttachToHttpApp(IRobot robo, IAppBuilder app)
+        {
         }
     }
 }

@@ -10,7 +10,7 @@ using System.ComponentModel.Composition;
 namespace NuBot.Parts
 {
     [Export(typeof(IPart))]
-    public class TrollModule : SimplePart
+    public class TrollModule : Part
     {
         private Random _rand = new Random();
 
@@ -25,7 +25,7 @@ namespace NuBot.Parts
             get { return "Troll Module"; }
         }
 
-        public override void Run(IRobot robo)
+        public override void Attach(IRobot robo, CancellationToken token)
         {
             robo.Respond("troll me", m =>
                 robo.Say(trolls[_rand.Next(0, trolls.Length - 1)], m.Room));

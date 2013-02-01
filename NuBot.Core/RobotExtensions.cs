@@ -33,6 +33,16 @@ namespace NuBot
         }
 
         /// <summary>
+        /// Registers a handler to fire when the robot hears any message that is directed at it
+        /// </summary>
+        /// <param name="robo">The robot on which to register the handler</param>
+        /// <param name="action">The handler to fire when a message is received</param>
+        public static void Respond(this IRobot robo, Action<ChatMessage> action)
+        {
+            AddMessageHandler(robo, null, action, directedAtRobot: true);
+        }
+
+        /// <summary>
         /// Registers a handler to fire when the robot hears a message that is directed at it containing a specific phrase
         /// </summary>
         /// <param name="robo">The robot on which to register the handler</param>

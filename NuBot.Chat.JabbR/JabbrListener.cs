@@ -13,7 +13,7 @@ using Microsoft.AspNet.SignalR.Client.Hubs;
 namespace NuBot.Chat.JabbR
 {
     [Export(typeof(IPart))]
-    public class JabbrListener : IPart
+    public class JabbrListener : Part
     {
         public static readonly string HostConfigKey = "Jabbr.Host";
         public static readonly string UserNameConfigKey = "Jabbr.UserName";
@@ -22,7 +22,7 @@ namespace NuBot.Chat.JabbR
 
         private CookieContainer _cookieJar = new CookieContainer();
         
-        public string Name { get { return "JabbR Listener"; } }
+        public override string Name { get { return "JabbR Listener"; } }
         
         public Uri Host { get; private set; }
         public string UserName { get; private set; }
@@ -41,7 +41,7 @@ namespace NuBot.Chat.JabbR
             Rooms = rooms;
         }
 
-        public async Task Run(IRobot robo, CancellationToken token)
+        public override async void Attach(IRobot robo, CancellationToken token)
         {
             // Get data from config if not specified
             Host = Host ?? robo.Configuration.GetSetting(HostConfigKey, s => String.IsNullOrEmpty(s) ? null : new Uri(s));
