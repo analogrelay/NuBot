@@ -81,6 +81,7 @@ namespace NuBot.Core.Parts
                 robo.Log.Trace("Connecting to JabbR");
                 var logOnInfo = await client.Connect(UserName, Password);
                 robo.Log.Trace("Connection Established");
+                robo.Log.Info("Jabbin in JabbR");
                 await new JabbrListenerWorker(logOnInfo, client, Rooms, robo, new[] { robo.Name, UserName }).Run(token);
             }
             catch (SecurityException)

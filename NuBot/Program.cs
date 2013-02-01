@@ -32,7 +32,7 @@ namespace NuBot
             robot.Start();
             try
             {
-                log.Info("Robot is running, press ESC to stop");
+                log.Info("Press ESC to shut down the robot");
                 await Task.Factory.StartNew(() => SpinWait.SpinUntil(() => Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Escape));
                 robot.Stop();
             }
@@ -53,7 +53,7 @@ namespace NuBot
             config.AddTarget("console", target);
 
             // Rules
-            LoggingRule rule = new LoggingRule("*", LogLevel.Trace, target);
+            LoggingRule rule = new LoggingRule("*", LogLevel.Info, target);
             config.LoggingRules.Add(rule);
 
             // Create factory

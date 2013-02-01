@@ -78,6 +78,7 @@ namespace NuBot.Core
             }).ToArray();
             
             _logger.Trace("Started Robot");
+            _logger.Info("{0} has suited up and is ready to go", Name);
         }
 
         public void Stop()
