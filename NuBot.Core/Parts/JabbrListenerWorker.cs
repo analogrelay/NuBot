@@ -23,16 +23,14 @@ namespace NuBot.Core.Parts
         private string _userName;
         private JabbRClient _client;
         private LogOnInfo _logOnInfo;
-        private MessageProcessor _processor;
         private string[] _robotNames;
 
-        public JabbrListenerWorker(MessageProcessor processor, LogOnInfo logOnInfo, JabbRClient client, string[] rooms, IRobot robo, string[] robotNames)
+        public JabbrListenerWorker(LogOnInfo logOnInfo, JabbRClient client, string[] rooms, IRobot robo, string[] robotNames)
         {
             _robo = robo;
             _rooms = rooms;
             _client = client;
             _logOnInfo = logOnInfo;
-            _processor = processor;
             _robotNames = robotNames;
         }
 
@@ -42,7 +40,10 @@ namespace NuBot.Core.Parts
             var extraRooms = _logOnInfo.Rooms.Select(r => r.Name).Except(_rooms);
             if (extraRooms.Any())
             {
-                await _client.LeaveRooms(extraRooms);
+                foreach (var room in extraRooms)
+                {
+                    await _client.LeaveRoom(room);
+                }
             }
 
             // Join rooms we're not in
@@ -50,7 +51,10 @@ namespace NuBot.Core.Parts
             if (extraRooms.Any())
             {
                 _robo.Log.Trace("Joining rooms: {0}", String.Join(",", extraRooms));
-                await _client.JoinRooms(extraRooms);
+                foreach (var room in extraRooms)
+                {
+                    await _client.JoinRoom(room);
+                }
             }
 
             // Attach events
@@ -61,7 +65,7 @@ namespace NuBot.Core.Parts
             
             // Wait until terminated and disconnect
             token.Register(() => {
-                _client.LeaveRooms(_rooms).ContinueWith(t =>
+                Task.WhenAll(_rooms.Select(s => _client.LeaveRoom(s)).ToArray()).ContinueWith(t =>
                 {
                     // Always disconnect as gracefully as possible
                     _client.Disconnect();
@@ -77,8 +81,8 @@ namespace NuBot.Core.Parts
         void _client_MessageReceived(Message message, string room)
         {
             // Process the message and put it on the bus
-            var tokens = _processor.Tokenize(message.Content);
-            var directedAtRobot = _processor.IsDirectedAtRobot(tokens, _robotNames);
+            var tokens = MessageProcessor.Tokenize(message.Content);
+            var directedAtRobot = MessageProcessor.IsDirectedAtRobot(tokens, _robotNames);
             _robo.Bus.Send(new ChatMessage(
                 directedAtRobot,
                 message.User.Name,

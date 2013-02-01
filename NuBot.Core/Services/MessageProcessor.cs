@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace NuBot.Core.Services
 {
-    public class MessageProcessor
+    public static class MessageProcessor
     {
-        public virtual IEnumerable<string> Tokenize(string input)
+        public static IEnumerable<string> Tokenize(string input)
         {
             StringBuilder tokenBuilder = new StringBuilder();
             char? tokenStart = null;
@@ -38,17 +38,17 @@ namespace NuBot.Core.Services
             }
         }
 
-        public virtual bool IsDirectedAtRobot(IEnumerable<string> tokens, params string[] robotNames)
+        public static bool IsDirectedAtRobot(IEnumerable<string> tokens, params string[] robotNames)
         {
             return tokens.Intersect(robotNames, StringComparer.OrdinalIgnoreCase).Any();
         }
 
-        public virtual bool ContainsWordsInOrder(IEnumerable<string> tokens, string words)
+        public static bool ContainsWordsInOrder(IEnumerable<string> tokens, string words)
         {
             return ContainsWordsInOrder(tokens, Tokenize(words));
         }
 
-        public virtual bool ContainsWordsInOrder(IEnumerable<string> tokens, IEnumerable<string> words)
+        public static bool ContainsWordsInOrder(IEnumerable<string> tokens, IEnumerable<string> words)
         {
             // Strip out uninteresting tokens
             var tokenArray = tokens.Where(str => IsWord(str)).ToArray();
@@ -81,7 +81,7 @@ namespace NuBot.Core.Services
             return str.Length > 0 && (Char.IsLetterOrDigit(str[0]) || str[0] == '-');
         }
 
-        private bool AreSimilar(char x, char y)
+        private static bool AreSimilar(char x, char y)
         {
             return ((Char.IsLetterOrDigit(x) || x == '-') && (Char.IsLetterOrDigit(y) || y == '-')) ||
                    (Char.IsWhiteSpace(x) && Char.IsWhiteSpace(y)) ||

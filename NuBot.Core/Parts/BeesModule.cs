@@ -13,25 +13,16 @@ using System.ComponentModel.Composition;
 namespace NuBot.Core.Parts
 {
     [Export(typeof(IPart))]
-    public class BeesModule : IPart
+    public class BeesModule : SimplePart
     {
-        public string Name
+        public override string Name
         {
             get { return "Bees Module"; }
         }
 
-        public Task Run(IRobot robo, CancellationToken cancelToken)
+        public override void Run(IRobot robo)
         {
-            MessageProcessor processor = new MessageProcessor();
-            robo.Bus.Observe<ChatMessage>()
-                .Where(m => processor.ContainsWordsInOrder(m.Tokens, "bees"))
-                .Subscribe(msg =>
-                {
-                    robo.Bus.Send(new SendChatMessage(
-                        "http://img37.imageshack.us/img37/7044/oprahbees.gif",
-                        msg.Room));
-                });
-            return Task.FromResult<object>(null);
+            robo.Hear("bees", m => robo.Say("http://img37.imageshack.us/img37/7044/oprahbees.gif", m.Room));
         }
     }
 }

@@ -13,7 +13,7 @@ using System.ComponentModel.Composition;
 namespace NuBot.Core.Parts
 {
     [Export(typeof(IPart))]
-    public class TrollModule : IPart
+    public class TrollModule : SimplePart
     {
         private Random _rand = new Random();
 
@@ -23,24 +23,15 @@ namespace NuBot.Core.Parts
             "http://t0.gstatic.com/images?q=tbn:ANd9GcSXI09FJxrT5lm_5o98Zu528sr6Doj0o13ChzPsB5S07aQusQmpOw"
         };
 
-        public string Name
+        public override string Name
         {
             get { return "Troll Module"; }
         }
 
-        public Task Run(IRobot robo, CancellationToken cancelToken)
+        public override void Run(IRobot robo)
         {
-            MessageProcessor processor = new MessageProcessor();
-            robo.Bus.Observe<ChatMessage>()
-                .Where(m => m.DirectedAtRobot && processor.ContainsWordsInOrder(m.Tokens, "troll me"))
-                .Subscribe(msg =>
-                {
-                    int item = _rand.Next(0, 2);
-                    robo.Bus.Send(new SendChatMessage(
-                        trolls[item],
-                        msg.Room));
-                });
-            return Task.FromResult<object>(null);
+            robo.Respond("troll me", m =>
+                robo.Say(trolls[_rand.Next(0, trolls.Length - 1)], m.Room));
         }
     }
 }

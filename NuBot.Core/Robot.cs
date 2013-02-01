@@ -46,6 +46,7 @@ namespace NuBot.Core
             get { return _log ?? (_log = new RobotLog(_logger)); }
         }
 
+        public Robot() : this("NuBot", null, new DefaultRobotConfiguration(), new MessageBus()) { }
         public Robot(string name, LogFactory factory, IRobotConfiguration configuration, IMessageBus bus)
         {
             var loggerName = String.Format("Robot.{0}", name);

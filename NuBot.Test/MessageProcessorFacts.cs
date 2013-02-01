@@ -19,7 +19,7 @@ namespace NuBot.Test
             [InlineData("Hyphen-ation Rocks!", new[] { "Hyphen-ation", " ", "Rocks", "!" })]
             public void ProducesTheExpectedTokens(string message, string[] tokens)
             {
-                Assert.Equal(tokens, new MessageProcessor().Tokenize(message).ToArray());
+                Assert.Equal(tokens, MessageProcessor.Tokenize(message).ToArray());
             }
         }
 
@@ -42,9 +42,8 @@ namespace NuBot.Test
             [InlineData("Hey @nubot can you help me?")]
             public void CorrectlyIdentifiesMessagesSentToTheRobot(string message)
             {
-                MessageProcessor processor = new MessageProcessor();
-                var tokens = processor.Tokenize(message);
-                Assert.True(processor.IsDirectedAtRobot(tokens, "NuBot"));
+                var tokens = MessageProcessor.Tokenize(message);
+                Assert.True(MessageProcessor.IsDirectedAtRobot(tokens, "NuBot"));
             }
 
             [Theory]
@@ -52,9 +51,8 @@ namespace NuBot.Test
             [InlineData("ILoveNuBot")]
             public void CorrectlyIgnoresMessagesNotSentToTheRobot(string message)
             {
-                MessageProcessor processor = new MessageProcessor();
-                var tokens = processor.Tokenize(message);
-                Assert.False(processor.IsDirectedAtRobot(tokens, "NuBot"));
+                var tokens = MessageProcessor.Tokenize(message);
+                Assert.False(MessageProcessor.IsDirectedAtRobot(tokens, "NuBot"));
             }
         }
 
@@ -74,11 +72,10 @@ namespace NuBot.Test
             [InlineData("?Bees?", "bees")]
             public void CorrectlyMatchesWordsWhenTheyAreInTheTarget(string target, string words)
             {
-                MessageProcessor processor = new MessageProcessor();
-                var targetTokens = processor.Tokenize(target);
-                var wordTokens = processor.Tokenize(words);
-                Assert.True(processor.ContainsWordsInOrder(targetTokens, wordTokens));
-                Assert.True(processor.ContainsWordsInOrder(targetTokens, words));
+                var targetTokens = MessageProcessor.Tokenize(target);
+                var wordTokens = MessageProcessor.Tokenize(words);
+                Assert.True(MessageProcessor.ContainsWordsInOrder(targetTokens, wordTokens));
+                Assert.True(MessageProcessor.ContainsWordsInOrder(targetTokens, words));
             }
         }
     }

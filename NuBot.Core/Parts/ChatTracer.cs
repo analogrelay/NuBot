@@ -10,22 +10,20 @@ using NuBot.Core.Messages;
 namespace NuBot.Core.Parts
 {
     [Export(typeof(IPart))]
-    public class ChatTracer : IPart
+    public class ChatTracer : SimplePart
     {
-        public string Name
+        public override string Name
         {
             get { return "Chat Tracer"; }
         }
 
-        public Task Run(IRobot robo, CancellationToken cancelToken)
+        public override void Run(IRobot robo)
         {
-            robo.Bus.Observe<ChatMessage>()
-                .Subscribe(msg =>
-                {
-                    string type = msg.DirectedAtRobot ? "DM" : "OH";
-                    robo.Log.Trace("[{0} In {1}] {2}: {3}", type, msg.Room, msg.From, msg.Content);
-                });
-            return Task.FromResult<object>(null);
+            robo.Hear(msg =>
+            {
+                string type = msg.DirectedAtRobot ? "DM" : "OH";
+                robo.Log.Trace("[{0} In {1}] {2}: {3}", type, msg.Room, msg.From, msg.Content);
+            });
         }
     }
 }

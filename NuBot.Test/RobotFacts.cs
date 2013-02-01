@@ -23,12 +23,6 @@ namespace NuBot.Test
             }
 
             [Fact]
-            public void SetsProvidedNameIfSpecified()
-            {
-                Assert.Equal("Steve", new Robot("Steve").Name);
-            }
-
-            [Fact]
             public void InitializesLogToNonNullValue()
             {
                 Assert.NotNull(new Robot().Log);
@@ -41,7 +35,7 @@ namespace NuBot.Test
             public void InitializesAllParts()
             {
                 // Arrage
-                var robot = new Robot("Steve");
+                var robot = new Robot();
                 var mockPart = new Mock<IPart>();
                 mockPart.Setup(p => p.Run(It.IsAny<IRobot>(), It.IsAny<CancellationToken>())).Returns(Task.FromResult(""));
                 robot.Parts.Add(mockPart.Object);
