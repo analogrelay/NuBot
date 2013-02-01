@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Security;
 using System.Text;
 using System.Threading;
@@ -11,7 +10,7 @@ using System.Threading.Tasks;
 using JabbR.Client;
 using Microsoft.AspNet.SignalR.Client.Hubs;
 
-namespace NuBot.Parts
+namespace NuBot.Chat.JabbR
 {
     [Export(typeof(IPart))]
     public class JabbrListener : IPart
@@ -30,19 +29,6 @@ namespace NuBot.Parts
         public string Password { get; private set; }
         public string[] Rooms { get; private set; }
         
-        private HttpClient _client;
-        private HttpClient Client
-        {
-            get
-            {
-                return _client ?? (_client = new HttpClient(new WebRequestHandler()
-                {
-                    CookieContainer = _cookieJar,
-                    UseCookies = true
-                }));
-            }
-        }
-
         public JabbrListener()
         {
         }
@@ -86,10 +72,6 @@ namespace NuBot.Parts
             catch (SecurityException)
             {
                 robo.Log.Error("Invalid User Name or Password");
-            }
-            catch (HttpRequestException hrex)
-            {
-                robo.Log.Error("http {0}", hrex.Message);
             }
             catch (Exception ex)
             {

@@ -66,7 +66,7 @@ namespace NuBot
 
             var tasks = Parts.Select(async part =>
             {
-                _logger.Trace("Attaching Part: {0}", part.Name);
+                _logger.Info("Attaching Part: {0}", part.Name);
                 try
                 {
                     await part.Run(this, _cts.Token);

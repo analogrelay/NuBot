@@ -23,7 +23,7 @@ namespace NuBot
         public IRobot ComposeRobot(string name, LogFactory logFactory, IRobotConfiguration config)
         {
             var container = new CompositionContainer(new AggregateCatalog(
-                new AssemblyCatalog(typeof(Composer).Assembly),
+                new DirectoryCatalog(AppDomain.CurrentDomain.BaseDirectory),
                 new AggregateCatalog(AdditionalCatalogs)));
 
             container.ComposeExportedValue(logFactory);
