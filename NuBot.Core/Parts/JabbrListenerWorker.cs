@@ -48,11 +48,15 @@ namespace NuBot.Core.Parts
             extraRooms = _rooms.Except(_logOnInfo.Rooms.Select(r => r.Name));
             if (extraRooms.Any())
             {
+                _robo.Log.Trace("Joining rooms: {0}", String.Join(",", extraRooms));
                 await _client.JoinRooms(extraRooms);
             }
 
             // Attach events
             _client.MessageReceived += _client_MessageReceived;
+
+            // Attach to the bus
+            _robo.Bus.Observe<SendChatMessage>().Subscribe(SendMessage);
             
             // Wait until terminated and disconnect
             token.Register(() => {
@@ -62,6 +66,11 @@ namespace NuBot.Core.Parts
                     _client.Disconnect();
                 });
             });
+        }
+
+        private void SendMessage(SendChatMessage msg)
+        {
+            _client.Send(msg.Message, msg.Room);
         }
 
         void _client_MessageReceived(Message message, string room)

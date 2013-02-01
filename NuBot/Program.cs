@@ -28,6 +28,8 @@ namespace NuBot
             var robot = new Robot("NuBot", factory, config);
             robot.Parts.Add(new JabbrListener());
             robot.Parts.Add(new ChatTracer());
+            robot.Parts.Add(new TrollModule());
+            robot.Parts.Add(new BeesModule());
 
             robot.Start();
             try

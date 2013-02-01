@@ -74,9 +74,12 @@
     <Compile Include="IRobotLog.cs" />
     <Compile Include="MessageBus.cs" />
     <Compile Include="Messages\ChatMessage.cs" />
+    <Compile Include="Messages\SendChatMessage.cs" />
     <Compile Include="Parts\ChatTracer.cs" />
+    <Compile Include="Parts\BeesModule.cs" />
     <Compile Include="Parts\JabbrListener.cs" />
     <Compile Include="Parts\JabbrListenerWorker.cs" />
+    <Compile Include="Parts\TrollModule.cs" />
     <Compile Include="Robot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RobotLog.cs" />

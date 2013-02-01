@@ -30,9 +30,9 @@ namespace NuBot.Core.Services
 
         private IEnumerable<Regex> GenerateRegexesForName(string name)
         {
-            yield return new Regex(String.Format(@"^@?{0}\,?\s+.*", name), RegexOptions.IgnoreCase);
-            yield return new Regex(String.Format(@".*\s+@?{0}\,?$", name), RegexOptions.IgnoreCase);
-            yield return new Regex(String.Format(@".*\s+@?{0}\,?\s+.*", name), RegexOptions.IgnoreCase);
+            yield return new Regex(String.Format(@"^@?{0}(\,|\.|\!)?\s+.*", name), RegexOptions.IgnoreCase);
+            yield return new Regex(String.Format(@".*\s+@?{0}(\,|\.|\!)?$", name), RegexOptions.IgnoreCase);
+            yield return new Regex(String.Format(@".*\s+@?{0}(\,|\.|\!)?\s+.*", name), RegexOptions.IgnoreCase);
         }
     }
 }
