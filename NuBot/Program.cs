@@ -26,6 +26,7 @@ namespace NuBot
             var factory = ConfigureLogging();
             var log = factory.GetLogger("Main");
 
+            log.Info("Suiting up.");
             var composer = new Composer();
             var robot = composer.ComposeRobot("NuBot", factory, config);
             
