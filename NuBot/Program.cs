@@ -27,8 +27,9 @@ namespace NuBot
             var log = factory.GetLogger("Main");
             var robot = new Robot("NuBot", factory, config);
             robot.Parts.Add(new JabbrListener());
+            robot.Parts.Add(new ChatTracer());
 
-            var robotTask = robot.Run();
+            robot.Start();
             try
             {
                 log.Info("Robot is running, press ESC to stop");
@@ -38,10 +39,6 @@ namespace NuBot
             catch (Exception ex)
             {
                 log.Error(ex.Message);
-            }
-            if (robotTask.IsFaulted)
-            {
-                log.Error(robotTask.Exception.GetBaseException().Message);
             }
             log.Info("Robot shut down.");
         }

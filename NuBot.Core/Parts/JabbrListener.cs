@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using JabbR.Client;
 using Microsoft.AspNet.SignalR.Client.Hubs;
+using NuBot.Core.Services;
 
 namespace NuBot.Core.Parts
 {
@@ -27,7 +28,7 @@ namespace NuBot.Core.Parts
         public string UserName { get; private set; }
         public string Password { get; private set; }
         public string[] Rooms { get; private set; }
-
+        
         private HttpClient _client;
         private HttpClient Client
         {
@@ -60,6 +61,7 @@ namespace NuBot.Core.Parts
             UserName = UserName ?? robo.Configuration.GetSetting(UserNameConfigKey);
             Password = Password ?? robo.Configuration.GetSetting(PasswordConfigKey);
             Rooms = Rooms ?? robo.Configuration.GetSetting(RoomsConfigKey, s => String.IsNullOrEmpty(s) ? null : s.Split(','));
+            var scanner = new MessageScanner(robo.Name, UserName);
 
             // Validate data
             //  This is a rare case in which we DON'T want short-circuiting since we want to print as many "blah is required" messages as possible
@@ -78,7 +80,7 @@ namespace NuBot.Core.Parts
                 robo.Log.Trace("Connecting to JabbR");
                 var logOnInfo = await client.Connect(UserName, Password);
                 robo.Log.Trace("Connection Established");
-                await new JabbrListenerWorker(logOnInfo, client, Rooms, robo, UserName).Run(token);
+                await new JabbrListenerWorker(scanner, logOnInfo, client, Rooms, robo, UserName).Run(token);
             }
             catch (SecurityException)
             {

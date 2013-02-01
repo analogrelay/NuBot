@@ -11,6 +11,8 @@ using JabbR.Client.Models;
 using Microsoft.AspNet.SignalR.Client.Http;
 using Microsoft.AspNet.SignalR.Client.Hubs;
 using Microsoft.AspNet.SignalR.Client.Transports;
+using NuBot.Core.Services;
+using NuBot.Core.Messages;
 
 namespace NuBot.Core.Parts
 {
@@ -21,14 +23,16 @@ namespace NuBot.Core.Parts
         private string _userName;
         private JabbRClient _client;
         private LogOnInfo _logOnInfo;
+        private MessageScanner _scanner;
 
-        public JabbrListenerWorker(LogOnInfo logOnInfo, JabbRClient client, string[] rooms, IRobot robo, string userName)
+        public JabbrListenerWorker(MessageScanner scanner, LogOnInfo logOnInfo, JabbRClient client, string[] rooms, IRobot robo, string userName)
         {
             _robo = robo;
             _rooms = rooms;
             _client = client;
             _logOnInfo = logOnInfo;
             _userName = userName;
+            _scanner = scanner;
         }
 
         public async Task Run(CancellationToken token)
@@ -62,12 +66,15 @@ namespace NuBot.Core.Parts
 
         void _client_MessageReceived(Message message, string room)
         {
-            _robo.Log.Trace("[{0}] {1}: {2}", room, message.User.Name, message.Content);
-            if (Regex.IsMatch(message.Content, ".*" + _userName + ".*") || Regex.IsMatch(message.Content, ".*" + _robo.Name + ".*"))
-            {
-                // Send a dumb response
-                _client.Send(String.Format("Hi {0}, what can I do for you?", message.User.Name), room);
-            }
+            // Process the message and put it on the bus
+            var directedAtRobot = _scanner.IsForRobot(message.Content);
+            _robo.Bus.Send(new ChatMessage(
+                directedAtRobot,
+                message.User.Name,
+                room,
+                message.When,
+                message.Content, 
+                message.Id));
         }
     }
 }

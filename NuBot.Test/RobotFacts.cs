@@ -47,37 +47,10 @@ namespace NuBot.Test
                 robot.Parts.Add(mockPart.Object);
                 
                 // Act
-                robot.Run();
+                robot.Start();
 
                 // Assert
                 mockPart.Verify(p => p.Run(robot, It.IsAny<CancellationToken>()));
-            }
-
-            [Fact]
-            public void ReturnsTaskWhichDoesNotCompleteUntilAllTasksDone()
-            {
-                // Arrange
-                TaskCompletionSource<object> tcs1 = new TaskCompletionSource<object>();
-                var mockPart1 = new Mock<IPart>();
-                mockPart1.Setup(p => p.Run(It.IsAny<IRobot>(), It.IsAny<CancellationToken>())).Returns(tcs1.Task);
-
-                TaskCompletionSource<object> tcs2 = new TaskCompletionSource<object>();
-                var mockPart2 = new Mock<IPart>();
-                mockPart2.Setup(p => p.Run(It.IsAny<IRobot>(), It.IsAny<CancellationToken>())).Returns(tcs2.Task);
-                
-                var robot = new Robot("Steve");
-                robot.Parts.Add(mockPart1.Object);
-                robot.Parts.Add(mockPart2.Object);
-                
-                // Act
-                var ret = robot.Run();
-
-                // Assert
-                Assert.False(ret.IsCompleted);
-                tcs1.TrySetResult(null);
-                Assert.False(ret.IsCompleted);
-                tcs2.TrySetResult(null);
-                Assert.True(ret.IsCompleted);
             }
         }
     }

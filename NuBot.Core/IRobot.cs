@@ -9,9 +9,10 @@ namespace NuBot.Core
     public interface IRobot
     {
         string Name { get; }
+        IMessageBus Bus { get; }
         IRobotLog Log { get; }
         IRobotConfiguration Configuration { get; }
-        Task Run();
+        void Start();
         void Stop();
     }
 }

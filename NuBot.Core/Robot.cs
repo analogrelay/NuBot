@@ -19,6 +19,7 @@ namespace NuBot.Core
 
         public IList<IPart> Parts { get; private set; }
         public string Name { get; private set; }
+        public IMessageBus Bus { get; private set; }
         public IRobotConfiguration Configuration { get; private set; }
 
         public IRobotLog Log
@@ -29,7 +30,8 @@ namespace NuBot.Core
         public Robot() : this(DefaultRobotName) { }
         public Robot(string name) : this(name, null) { }
         public Robot(string name, LogFactory factory) : this(name, factory, new DefaultRobotConfiguration(DefaultEnvironmentVariablePrefix)) { }
-        public Robot(string name, LogFactory factory, IRobotConfiguration configuration)
+        public Robot(string name, LogFactory factory, IRobotConfiguration configuration) : this(name, factory, configuration, new MessageBus()) { }
+        public Robot(string name, LogFactory factory, IRobotConfiguration configuration, IMessageBus bus)
         {
             var loggerName = String.Format("Robot.{0}", name);
             _logger = factory == null ?
@@ -39,9 +41,10 @@ namespace NuBot.Core
             Name = name;
             Configuration = configuration;
             Parts = new List<IPart>();
+            Bus = bus;
         }
 
-        public async Task Run()
+        public void Start()
         {
             _logger.Trace("Starting Robot");
 
