@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using JabbR.Client;
 using Microsoft.AspNet.SignalR.Client.Hubs;
+using NuBot.Configuration;
 
 namespace NuBot.Chat.JabbR
 {

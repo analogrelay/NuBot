@@ -14,7 +14,7 @@ namespace NuBot.Test
         public class TheInfoMethod
         {
             [Fact]
-            public void LogsInfoLevelMessageToLogger()
+            public void ShouldLogInfoLevelMessageToLogger()
             {
                 MemoryTarget target = new MemoryTarget();
                 var factory = TestLogging.CreateTestLogFactory(target);
@@ -29,7 +29,7 @@ namespace NuBot.Test
         public class TheErrorMethod
         {
             [Fact]
-            public void LogsErrorLevelMessageToLogger()
+            public void ShouldLogErrorLevelMessageToLogger()
             {
                 MemoryTarget target = new MemoryTarget();
                 var factory = TestLogging.CreateTestLogFactory(target);
@@ -44,7 +44,7 @@ namespace NuBot.Test
         public class TheTraceMethod
         {
             [Fact]
-            public void LogsTraceLevelMessageToLogger()
+            public void ShouldLogTraceLevelMessageToLogger()
             {
                 MemoryTarget target = new MemoryTarget();
                 var factory = TestLogging.CreateTestLogFactory(target);

@@ -5,10 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NuBot.Configuration;
 
 namespace NuBot
 {
-    public class DefaultRobotConfiguration : IRobotConfiguration
+    public class DefaultRobotConfiguration //: IRobotConfiguration
     {
         public bool UseEnvironmentVariables { get; private set; }
         public string EnvironmentVariablePrefix { get; private set; }

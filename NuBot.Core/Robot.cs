@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using NLog;
+using NuBot.Configuration;
 using Owin;
 using Owin.Builder;
 
@@ -52,7 +53,7 @@ namespace NuBot
             get { return _log ?? (_log = new RobotLog(_logger)); }
         }
 
-        public Robot() : this("NuBot", null, new DefaultRobotConfiguration(), new MessageBus(), null) { }
+        public Robot() : this("NuBot", null, null, new MessageBus(), null) { }
 
         public Robot(string name, LogFactory factory, IRobotConfiguration configuration, IMessageBus bus, IHttpHost httpHost)
         {

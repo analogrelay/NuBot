@@ -69,6 +69,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstractions\TestTextFile.cs" />
+    <Compile Include="Configuration\KeyValueConfigurationFacts.cs" />
+    <Compile Include="Configuration\JsonRobotConfigurationFacts.cs" />
     <Compile Include="MessageBusFacts.cs" />
     <Compile Include="MessageProcessorFacts.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

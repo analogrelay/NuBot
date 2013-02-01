@@ -17,13 +17,13 @@ namespace NuBot.Test
         public class TheConstructor
         {
             [Fact]
-            public void SetsDefaultNameIfNoneSpecified()
+            public void ShouldSetDefaultNameIfNoneSpecified()
             {
                 Assert.Equal("NuBot", new Robot().Name);
             }
 
             [Fact]
-            public void InitializesLogToNonNullValue()
+            public void ShouldInitializeLogToNonNullValue()
             {
                 Assert.NotNull(new Robot().Log);
             }
@@ -32,7 +32,7 @@ namespace NuBot.Test
         public class TheRunMethod
         {
             [Fact]
-            public void InitializesAllParts()
+            public void ShouldInitializeAllParts()
             {
                 // Arrage
                 var robot = new Robot();

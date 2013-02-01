@@ -87,14 +87,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstractions\ITextFile.cs" />
     <Compile Include="ColorPair.cs" />
     <Compile Include="Composer.cs" />
+    <Compile Include="Configuration\IConfigurationLoader.cs" />
+    <Compile Include="Configuration\IKeyValueConfiguration.cs" />
+    <Compile Include="Configuration\IPartConfiguration.cs" />
+    <Compile Include="Configuration\JsonKeyValueConfiguration.cs" />
+    <Compile Include="Configuration\JsonPartConfiguration.cs" />
+    <Compile Include="Configuration\JsonRobotConfiguration.cs" />
     <Compile Include="DefaultRobotConfiguration.cs" />
     <Compile Include="IHttpHost.cs" />
     <Compile Include="IMessageBus.cs" />
     <Compile Include="IPart.cs" />
     <Compile Include="IRobot.cs" />
-    <Compile Include="IRobotConfiguration.cs" />
+    <Compile Include="Configuration\IRobotConfiguration.cs" />
     <Compile Include="IRobotLog.cs" />
     <Compile Include="MessageBus.cs" />
     <Compile Include="Messages\ChatMessage.cs" />

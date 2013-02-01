@@ -14,7 +14,7 @@ namespace NuBot.Test
         public class TheSendMessage
         {
             [Fact]
-            public void RequiresNonNullMessage()
+            public void ShouldRequireNonNullMessage()
             {
                 var bus = new MessageBus();
                 var ex = Assert.Throws<ArgumentNullException>(() => bus.Send<object>(null));
@@ -22,7 +22,7 @@ namespace NuBot.Test
             }
 
             [Fact]
-            public async Task PublishesMessageToSubscriberAsynchronously()
+            public async Task ShouldPublishMessageToSubscriberAsynchronously()
             {
                 TaskCompletionSource<object> wait = new TaskCompletionSource<object>();
                 TaskCompletionSource<object> done = new TaskCompletionSource<object>();

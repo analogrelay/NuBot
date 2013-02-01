@@ -17,7 +17,7 @@ namespace NuBot.Test
             [InlineData("Hello, World", new [] { "Hello", ",", " ", "World" })]
             [InlineData("Hey, SmartGuy42. How are you?", new [] { "Hey", ",", " ", "SmartGuy42", ".", " ", "How", " ", "are", " ", "you", "?" })]
             [InlineData("Hyphen-ation Rocks!", new[] { "Hyphen-ation", " ", "Rocks", "!" })]
-            public void ProducesTheExpectedTokens(string message, string[] tokens)
+            public void ShouldProduceTheExpectedTokens(string message, string[] tokens)
             {
                 Assert.Equal(tokens, MessageProcessor.Tokenize(message).ToArray());
             }
@@ -40,7 +40,7 @@ namespace NuBot.Test
             [InlineData("Hey nubot can you help me?")]
             [InlineData("Hey @NuBot can you help me?")]
             [InlineData("Hey @nubot can you help me?")]
-            public void CorrectlyIdentifiesMessagesSentToTheRobot(string message)
+            public void ShouldIdentifyMessagesSentToTheRobot(string message)
             {
                 var tokens = MessageProcessor.Tokenize(message);
                 Assert.True(MessageProcessor.IsDirectedAtRobot(tokens, "NuBot"));
@@ -49,7 +49,7 @@ namespace NuBot.Test
             [Theory]
             [InlineData("NuBotacular")]
             [InlineData("ILoveNuBot")]
-            public void CorrectlyIgnoresMessagesNotSentToTheRobot(string message)
+            public void ShouldIgnoreMessagesNotSentToTheRobot(string message)
             {
                 var tokens = MessageProcessor.Tokenize(message);
                 Assert.False(MessageProcessor.IsDirectedAtRobot(tokens, "NuBot"));
@@ -70,7 +70,7 @@ namespace NuBot.Test
             [InlineData("Bees", "bees")]
             [InlineData("OH NO Bees", "bees")]
             [InlineData("?Bees?", "bees")]
-            public void CorrectlyMatchesWordsWhenTheyAreInTheTarget(string target, string words)
+            public void ShouldMatchWordsWhenTheyAreInTheTarget(string target, string words)
             {
                 var targetTokens = MessageProcessor.Tokenize(target);
                 var wordTokens = MessageProcessor.Tokenize(words);

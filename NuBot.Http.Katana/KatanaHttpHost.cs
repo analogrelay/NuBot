@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
-using System.Net;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Owin.Host.HttpListener;
 using Microsoft.Owin.Hosting;
 using Microsoft.Owin.Hosting.Settings;
+using NuBot.Configuration;
 using Owin;
 
 namespace NuBot.Http.Katana

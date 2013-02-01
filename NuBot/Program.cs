@@ -26,7 +26,7 @@ namespace NuBot
 
             log.Info("Suiting up.");
             var composer = new Composer();
-            var robot = composer.ComposeRobot("NuBot", factory, config);
+            var robot = composer.ComposeRobot("NuBot", factory, null);
             
             try
             {
