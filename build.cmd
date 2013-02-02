@@ -1,0 +1,1 @@
+@powershell -NoLogo -NoProfile -File %~dp0build.ps1 -ExecutionPolicy Bypass %*
