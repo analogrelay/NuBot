@@ -30,7 +30,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuBot.Core", "Source\NuBot.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuBot", "Source\NuBot\NuBot.csproj", "{8ACE9FD3-0D2C-4BE3-8972-FA65C96C7D4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuBot.NuGet.Deployment", "NuBot.NuGet.Deployment\NuBot.NuGet.Deployment.csproj", "{F84CA1CD-99FA-4A15-B831-4A32D91E1208}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuBot.NuGet.Deployment", "Source\Plugins\NuBot.NuGet.Deployment\NuBot.NuGet.Deployment.csproj", "{F84CA1CD-99FA-4A15-B831-4A32D91E1208}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
