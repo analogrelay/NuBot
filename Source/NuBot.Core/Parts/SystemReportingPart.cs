@@ -7,7 +7,6 @@ using Gate;
 
 namespace NuBot.Parts
 {
-    [Export(typeof(IPart))]
     public class SystemReportingPart : Part
     {
         public override string Title

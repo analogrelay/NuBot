@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Threading;
-using System.ComponentModel.Composition;
 
 namespace NuBot.Parts
 {
-    [Export(typeof(IPart))]
     public class TrollPart : Part
     {
         private readonly Random _rand = new Random();

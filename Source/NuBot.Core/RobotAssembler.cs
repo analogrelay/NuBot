@@ -13,6 +13,8 @@ namespace NuBot
 {
     public class RobotAssembler
     {
+        public static readonly string DefaultRobotName = "NuBot";
+
         private readonly IRobotConfiguration _configuration;
         private readonly ILogConfiguration _logConfiguiration;
         private Dictionary<string, IPart> _availableParts;
@@ -38,8 +40,15 @@ namespace NuBot
             Compose(partCatalogs);
         }
 
+        public IRobot CreateRobot()
+        {
+            return CreateRobot(null);
+        }
+
         public IRobot CreateRobot(string name)
         {
+            // Get the robot name from config if not specified, use the default if that isn't specified either
+            name = (name ?? _configuration.GetSetting("Name")) ?? DefaultRobotName;
             _log.Trace("Creating Robot '{0}'", name);
 
             // Get the HTTP Host from config

@@ -39,7 +39,7 @@ namespace NuBot.Test
             public void ShouldIdentifyMessagesSentToTheRobot(string message)
             {
                 var tokens = MessageHelper.Tokenize(message);
-                Assert.True(MessageHelper.IsDirectedAtRobot(tokens, "NuBot"));
+                Assert.True(MessageHelper.IsDirectedAtRobot(tokens, new [] {"NuBot"}));
             }
 
             [Theory]
@@ -48,7 +48,7 @@ namespace NuBot.Test
             public void ShouldIgnoreMessagesNotSentToTheRobot(string message)
             {
                 var tokens = MessageHelper.Tokenize(message);
-                Assert.False(MessageHelper.IsDirectedAtRobot(tokens, "NuBot"));
+                Assert.False(MessageHelper.IsDirectedAtRobot(tokens, new[] { "NuBot" }));
             }
         }
 

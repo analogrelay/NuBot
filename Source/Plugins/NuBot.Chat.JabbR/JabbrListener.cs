@@ -7,7 +7,6 @@ using NuBot.Configuration;
 
 namespace NuBot.Chat.JabbR
 {
-    [Export(typeof(IPart))]
     public class JabbrListener : Part
     {
         public static readonly string HostConfigKey = "Host";
@@ -42,7 +41,7 @@ namespace NuBot.Chat.JabbR
                 var logOnInfo = await client.Connect(UserName, Password);
                 robo.Log.Trace("Connection Established");
                 robo.Log.Info("Jabbin in JabbR");
-                await new JabbrListenerWorker(logOnInfo, client, Rooms, robo, new[] { robo.Name, UserName }, UserName).Run(token);
+                await new JabbrListenerWorker(logOnInfo, client, Rooms, robo, UserName).Run(token);
             }
             catch (SecurityException)
             {

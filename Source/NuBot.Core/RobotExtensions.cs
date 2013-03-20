@@ -16,7 +16,7 @@ namespace NuBot
         /// <param name="action">The handler to fire when a message is received</param>
         public static void Hear(this IRobot robo, Action<ChatMessage> action)
         {
-            AddMessageHandler(robo, new string[0], action, directedAtRobot: false);
+            AddMessageHandler(robo, (string[])null, action, directedAtRobot: false);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace NuBot
         /// <param name="action">The handler to fire when a message is received</param>
         public static void Respond(this IRobot robo, Action<ChatMessage> action)
         {
-            AddMessageHandler(robo, new string[0], action, directedAtRobot: true);
+            AddMessageHandler(robo, (string[])null, action, directedAtRobot: true);
         }
 
         /// <summary>
@@ -86,10 +86,10 @@ namespace NuBot
 
         private static void AddMessageHandler(IRobot robo, string phrase, Action<ChatMessage> action, bool directedAtRobot)
         {
-            AddMessageHandler(robo, String.IsNullOrEmpty(phrase) ? Enumerable.Empty<string>() : new[] { phrase }, action, directedAtRobot);
+            AddMessageHandler(robo, String.IsNullOrEmpty(phrase) ? null : new[] { phrase }, action, directedAtRobot);
         }
 
-        private static void AddMessageHandler(IRobot robo, IEnumerable<string> phrases, Action<ChatMessage> action, bool directedAtRobot)
+        private static void AddMessageHandler(IRobot robo, string[] phrases, Action<ChatMessage> action, bool directedAtRobot)
         {
             robo.Bus
                 .Observe<ChatMessage>()

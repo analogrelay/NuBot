@@ -86,6 +86,9 @@
     <Compile Include="Infrastructure\DefaultLogConfiguration.cs" />
     <Compile Include="Infrastructure\ILogConfiguration.cs" />
     <Compile Include="IPlugin.cs" />
+    <Compile Include="Parts\ChatParser.cs" />
+    <Compile Include="Parts\ConsoleChatListener.cs" />
+    <Compile Include="Messages\RawChatMessage.cs" />
     <Compile Include="RobotAssembler.cs" />
     <Compile Include="Configuration\IKeyValueConfiguration.cs" />
     <Compile Include="Configuration\IPartConfiguration.cs" />

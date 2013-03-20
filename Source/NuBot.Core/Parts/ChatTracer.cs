@@ -3,7 +3,6 @@ using System.Threading;
 
 namespace NuBot.Parts
 {
-    [Export(typeof(IPart))]
     public class ChatTracer : Part
     {
         public override string Name

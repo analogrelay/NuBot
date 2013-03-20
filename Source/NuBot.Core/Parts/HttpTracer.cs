@@ -4,7 +4,6 @@ using Gate;
 
 namespace NuBot.Parts
 {
-    [Export(typeof(IPart))]
     public class HttpTracer : Part
     {
         public override string Title

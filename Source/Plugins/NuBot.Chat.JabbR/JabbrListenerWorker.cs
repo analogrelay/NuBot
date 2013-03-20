@@ -16,15 +16,13 @@ namespace NuBot.Chat.JabbR
         private readonly string _userName;
         private readonly JabbRClient _client;
         private readonly LogOnInfo _logOnInfo;
-        private readonly string[] _robotNames;
-
-        public JabbrListenerWorker(LogOnInfo logOnInfo, JabbRClient client, string[] rooms, IRobot robo, string[] robotNames, string userName)
+        
+        public JabbrListenerWorker(LogOnInfo logOnInfo, JabbRClient client, string[] rooms, IRobot robo, string userName)
         {
             _robo = robo;
             _rooms = rooms;
             _client = client;
             _logOnInfo = logOnInfo;
-            _robotNames = robotNames;
             _userName = userName;
         }
 
@@ -79,18 +77,14 @@ namespace NuBot.Chat.JabbR
 
         void _client_MessageReceived(Message message, string room)
         {
-            // Process the message and put it on the bus
-            var tokens = MessageHelper.Tokenize(message.Content).ToList();
-            var directedAtRobot = MessageHelper.IsDirectedAtRobot(tokens, _robotNames);
-            _robo.Bus.Send(new ChatMessage(
-                directedAtRobot,
+            _robo.Bus.Send(new RawChatMessage(
                 message.User.Name,
                 room,
                 message.When,
                 message.Id,
                 message.Content, 
-                tokens,
-                String.Equals(message.User.Name, _userName, StringComparison.OrdinalIgnoreCase)));
+                String.Equals(message.User.Name, _userName, StringComparison.OrdinalIgnoreCase),
+                new[] { _userName }));
         }
     }
 }

@@ -1,9 +1,11 @@
-﻿using System.Threading;
+﻿using System.ComponentModel.Composition;
+using System.Threading;
 using NuBot.Configuration;
 using Owin;
 
 namespace NuBot
 {
+    [InheritedExport(typeof(IPart))]
     public abstract class Part : IPart
     {
         public abstract string Name { get; }

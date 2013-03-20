@@ -1,15 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using System.Text.RegularExpressions;
-using System.ComponentModel.Composition;
 
 namespace NuBot.Lulz
 {
-    [Export(typeof(IPart))]
     public class GreetingPart : Part
     {
         private readonly string[] _his = new[] {

@@ -1,9 +1,7 @@
 ﻿using System.Threading;
-using System.ComponentModel.Composition;
 
 namespace NuBot.Lulz
 {
-    [Export(typeof(IPart))]
     public class BeesPart : Part
     {
         public override string Name

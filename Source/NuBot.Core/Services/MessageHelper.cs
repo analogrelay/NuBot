@@ -37,7 +37,7 @@ namespace NuBot.Services
             }
         }
 
-        public static bool IsDirectedAtRobot(IEnumerable<string> tokens, params string[] robotNames)
+        public static bool IsDirectedAtRobot(IEnumerable<string> tokens, IEnumerable<string> robotNames)
         {
             return tokens.Intersect(robotNames, StringComparer.OrdinalIgnoreCase).Any();
         }

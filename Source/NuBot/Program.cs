@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using NuBot.Abstractions;
@@ -19,6 +21,8 @@ namespace NuBot
         const string ConfigFileName = "NuBot.config.json";
         static async Task AsyncMain(string[] args)
         {
+            TryLaunchDebugger(ref args);
+
             // Look for the configuration file
             string configPath = null;
             if (args.Length > 0)
@@ -53,7 +57,7 @@ namespace NuBot
 
             // Set up the assembler
             var log = logConfig.CreateLogger("Program");
-            log.Info("Assembling NuBot.");
+            log.Info("Assembling NuBot from Config File: {0}", configPath);
             var assembler = new RobotAssembler(config, logConfig,
                 partAssemblies: new[] {
                     typeof(Program).Assembly
@@ -63,7 +67,7 @@ namespace NuBot
                 });
 
             // Make a NuBot!
-            var robot = assembler.CreateRobot("NuBot");
+            var robot = assembler.CreateRobot();
 
             // Start the NuBot and wait for shutdown
             try
@@ -83,6 +87,17 @@ namespace NuBot
                 }
             }
             log.Info("Robot shut down.");
+        }
+
+        [Conditional("DEBUG")]
+        private static void TryLaunchDebugger(ref string[] args)
+        {
+            // Check for debug launch
+            if (args.Length > 0 && String.Equals(args[0], "dbg", StringComparison.OrdinalIgnoreCase))
+            {
+                args = args.Skip(1).ToArray();
+                Debugger.Launch();
+            }
         }
 
         private static Task WaitForControlC()
