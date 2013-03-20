@@ -4,7 +4,6 @@ using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace NuBot.Infrastructure
 {

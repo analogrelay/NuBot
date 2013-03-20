@@ -18,7 +18,10 @@ namespace NuBot.Configuration
 
         public JsonRobotConfiguration(ITextFile file)
         {
-            if (file == null) throw new ArgumentNullException("file");
+            if (file == null)
+            {
+                throw new ArgumentNullException("file");
+            }
 
             _file = file;
 

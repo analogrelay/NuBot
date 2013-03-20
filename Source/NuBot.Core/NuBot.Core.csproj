@@ -87,7 +87,6 @@
     <Compile Include="Infrastructure\ILogConfiguration.cs" />
     <Compile Include="IPlugin.cs" />
     <Compile Include="RobotAssembler.cs" />
-    <Compile Include="Configuration\IConfigurationLoader.cs" />
     <Compile Include="Configuration\IKeyValueConfiguration.cs" />
     <Compile Include="Configuration\IPartConfiguration.cs" />
     <Compile Include="Configuration\JsonKeyValueConfiguration.cs" />

@@ -48,7 +48,7 @@ namespace NuBot
             var logConfig = new DefaultLogConfiguration();
 
             // Load config file
-            ITextFile configFile = new PhysicalTextFile(configPath);
+            var configFile = new PhysicalTextFile(configPath);
             var config = new JsonRobotConfiguration(configFile);
 
             // Set up the assembler
@@ -69,8 +69,9 @@ namespace NuBot
             try
             {
                 robot.Start();
-                log.Info("Press ESC to shut down the robot");
-                await Task.Factory.StartNew(() => SpinWait.SpinUntil(() => Console.KeyAvailable && Console.ReadKey().Key == ConsoleKey.Escape));
+                log.Info("Press Ctrl-C to shut down the robot");
+                await WaitForControlC();
+                log.Info("Shutdown Request Recieved");
                 robot.Stop();
             }
             catch (Exception ex)
@@ -82,6 +83,13 @@ namespace NuBot
                 }
             }
             log.Info("Robot shut down.");
+        }
+
+        private static Task WaitForControlC()
+        {
+            var tcs = new TaskCompletionSource<object>();
+            Console.CancelKeyPress += (sender, args) => tcs.TrySetResult(null);
+            return tcs.Task;
         }
     }
 }

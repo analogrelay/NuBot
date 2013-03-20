@@ -22,10 +22,6 @@ namespace NuBot.Chat.JabbR
         public string UserName { get; private set; }
         public string Password { get; private set; }
         public string[] Rooms { get; private set; }
-        
-        public JabbrListener()
-        {
-        }
 
         public override void Configure(IPartConfiguration myConfig)
         {
