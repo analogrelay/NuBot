@@ -10,7 +10,7 @@ namespace NuBot.Infrastructure
 {
     public class TwoLevelDirectoryCatalog : ComposablePartCatalog, INotifyComposablePartCatalogChanged
     {
-        private IEnumerable<DirectoryCatalog> _subcatalogs;
+        private readonly IEnumerable<DirectoryCatalog> _subcatalogs;
 
         public string Path { get; private set; }
         public event EventHandler<ComposablePartCatalogChangeEventArgs> Changed;

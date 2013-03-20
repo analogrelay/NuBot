@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NLog;
+﻿using NLog;
 
 namespace NuBot
 {
     public class RobotLog : IRobotLog
     {
-        private Logger _logger;
+        private readonly Logger _logger;
 
         public RobotLog(Logger logger)
         {

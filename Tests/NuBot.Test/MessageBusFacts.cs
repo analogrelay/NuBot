@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Reactive.Linq;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xunit;
-using System.Threading;
 
 namespace NuBot.Test
 {
@@ -24,11 +20,11 @@ namespace NuBot.Test
             [Fact]
             public async Task ShouldPublishMessageToSubscriberAsynchronously()
             {
-                TaskCompletionSource<object> wait = new TaskCompletionSource<object>();
-                TaskCompletionSource<object> done = new TaskCompletionSource<object>();
+                var wait = new TaskCompletionSource<object>();
+                var done = new TaskCompletionSource<object>();
                 
                 var bus = new MessageBus();
-                object message = new object();
+                var message = new object();
                 bool recieved = false;
                 var current = Task.CurrentId;
                 bus.Observe<object>()

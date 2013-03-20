@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Reactive.Linq;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using NuBot.Messages;
 using NuBot.Services;
 
@@ -88,10 +86,10 @@ namespace NuBot
 
         private static void AddMessageHandler(IRobot robo, string phrase, Action<ChatMessage> action, bool directedAtRobot)
         {
-            AddMessageHandler(robo, String.IsNullOrEmpty(phrase) ? new string[0] : new[] { phrase }, action, directedAtRobot);
+            AddMessageHandler(robo, String.IsNullOrEmpty(phrase) ? Enumerable.Empty<string>() : new[] { phrase }, action, directedAtRobot);
         }
 
-        private static void AddMessageHandler(IRobot robo, string[] phrases, Action<ChatMessage> action, bool directedAtRobot)
+        private static void AddMessageHandler(IRobot robo, IEnumerable<string> phrases, Action<ChatMessage> action, bool directedAtRobot)
         {
             robo.Bus
                 .Observe<ChatMessage>()

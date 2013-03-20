@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
-using System.Net;
 using System.Security;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using JabbR.Client;
 using NuBot.Configuration;
 
@@ -19,8 +14,6 @@ namespace NuBot.Chat.JabbR
         public static readonly string UserNameConfigKey = "UserName";
         public static readonly string PasswordConfigKey = "Password";
         public static readonly string RoomsConfigKey = "Rooms";
-
-        private CookieContainer _cookieJar = new CookieContainer();
 
         public override string Name { get { return "chat.jabbr"; } }
         public override string Title { get { return "JabbR Listener"; } }
@@ -46,7 +39,7 @@ namespace NuBot.Chat.JabbR
         public override async void Attach(IRobot robo, CancellationToken token)
         {
             // Connect JabbR Client
-            var client = new JabbRClient(Host);
+            var client = new JabbRClient(Host.AbsoluteUri);
             try
             {
                 robo.Log.Trace("Connecting to JabbR");
@@ -63,25 +56,6 @@ namespace NuBot.Chat.JabbR
             {
                 robo.Log.Error(ex.Message);
             }
-        }
-
-        private bool Require(IRobot robo, string value, string settingName)
-        {
-            return Require(robo, String.IsNullOrEmpty(value), settingName);
-        }
-
-        private bool Require(IRobot robo, object value, string settingName)
-        {
-            return Require(robo, value == null, settingName);
-        }
-
-        private bool Require(IRobot robo, bool invalidCondition, string settingName)
-        {
-            if (invalidCondition)
-            {
-                robo.Log.Error("The {0} setting is required", settingName);
-            }
-            return !invalidCondition;
         }
     }
 }

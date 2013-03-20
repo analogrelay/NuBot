@@ -2,22 +2,18 @@
 
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
 using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NuBot
 {
     [Export(typeof(IMessageBus))]
     public class MessageBus : IMessageBus
     {
-        private IScheduler _scheduler;
-        private ConcurrentDictionary<Type, object> _subjects = new ConcurrentDictionary<Type, object>();
+        private readonly IScheduler _scheduler;
+        private readonly ConcurrentDictionary<Type, object> _subjects = new ConcurrentDictionary<Type, object>();
 
         public MessageBus() : this(Scheduler.Default) {}
         public MessageBus(IScheduler scheduler)

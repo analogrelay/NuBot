@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using Owin;
 using Gate;
 
@@ -30,7 +28,7 @@ namespace NuBot.Parts
             }
         }
 
-        public override void Attach(IRobot robo, System.Threading.CancellationToken token)
+        public override void Attach(IRobot robo, CancellationToken token)
         {
             robo.Respond("version", m => robo.Say(Version.ToString(), m.Room));
             robo.Respond("parts", m => robo.Say(FormatParts(robo), m.Room));
@@ -38,27 +36,21 @@ namespace NuBot.Parts
 
         public override void AttachToHttpApp(IRobot robo, Owin.IAppBuilder app)
         {
-            app.Map("/system/version", (IAppBuilder subapp) =>
+            app.Map("/system/version", subapp => subapp.UseGate((req, resp) =>
             {
-                subapp.UseGate((req, resp) =>
-                {
-                    resp.StatusCode = 200;
-                    resp.Write(Version.ToString());
-                });
-            });
-            app.Map("/system/parts", (IAppBuilder subapp) =>
+                resp.StatusCode = 200;
+                resp.Write(Version.ToString());
+            }));
+            app.Map("/system/parts", subapp => subapp.UseGate((req, resp) =>
             {
-                subapp.UseGate((req, resp) =>
-                {
-                    resp.StatusCode = 200;
-                    resp.Write(FormatParts(robo));
-                });
-            });
+                resp.StatusCode = 200;
+                resp.Write(FormatParts(robo));
+            }));
         }
 
         private string FormatParts(IRobot robo)
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             foreach (var part in robo.Parts)
             {
                 builder.AppendLine(String.Format("{0} v{1}", part.Name, part.GetType().Assembly.GetName().Version.ToString()));

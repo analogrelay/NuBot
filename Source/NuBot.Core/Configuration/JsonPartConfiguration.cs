@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
+﻿using System.IO;
 using Newtonsoft.Json.Linq;
 
 namespace NuBot.Configuration
@@ -20,24 +16,24 @@ namespace NuBot.Configuration
         private void LoadConfiguration(JProperty partProperty)
         {
             Name = partProperty.Name;
-            if (partProperty.Value.Type == JTokenType.Boolean)
+            switch (partProperty.Value.Type)
             {
-                // Simple form: 'Part':true
-                IsEnabled = partProperty.Value.ToObject<bool>();
-                LoadNewSettings(null);
-            }
-            else if (partProperty.Value.Type == JTokenType.Object)
-            {
-                var part = (JObject)partProperty.Value;
+                case JTokenType.Boolean:
+                    IsEnabled = partProperty.Value.ToObject<bool>();
+                    LoadNewSettings(null);
+                    break;
+                case JTokenType.Object:
+                {
+                    var part = (JObject)partProperty.Value;
 
-                var enabledProp = part.Property("Enabled");
-                IsEnabled = enabledProp != null && enabledProp.Value.ToObject<bool>();
+                    var enabledProp = part.Property("Enabled");
+                    IsEnabled = enabledProp != null && enabledProp.Value.ToObject<bool>();
 
-                LoadNewSettings(part.Property("Settings"));
-            }
-            else
-            {
-                throw new InvalidDataException("Incorrect Configuration Document");
+                    LoadNewSettings(part.Property("Settings"));
+                }
+                    break;
+                default:
+                    throw new InvalidDataException("Incorrect Configuration Document");
             }
         }
     }

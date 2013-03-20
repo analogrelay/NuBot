@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.Composition;
 using Owin;
 using Gate;
 
@@ -24,7 +19,7 @@ namespace NuBot.Parts
 
         public override void AttachToHttpApp(IRobot robo, IAppBuilder app)
         {
-            app.UseFunc(next => async (IDictionary<string, object> environment) => {
+            app.UseFunc(next => async environment => {
                 var req = new Request(environment);
                 TraceRequest(robo, req);
                 await next(environment);

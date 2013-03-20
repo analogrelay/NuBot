@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using NLog;
 using NuBot.Configuration;
 using NuBot.Infrastructure;
@@ -16,12 +13,12 @@ namespace NuBot
 {
     public class RobotAssembler
     {
-        private IRobotConfiguration _configuration;
-        private ILogConfiguration _logConfiguiration;
+        private readonly IRobotConfiguration _configuration;
+        private readonly ILogConfiguration _logConfiguiration;
         private Dictionary<string, IPart> _availableParts;
         private Dictionary<string, IHttpHost> _availableHttpHosts;
 
-        private Logger _log;
+        private readonly Logger _log;
 
         public RobotAssembler(IRobotConfiguration configuration, ILogConfiguration logConfiguration)
             : this(configuration, logConfiguration, Enumerable.Empty<Assembly>(), Enumerable.Empty<string>()) { }
@@ -60,7 +57,7 @@ namespace NuBot
             // Activate parts
             var selectedParts = _configuration.Parts.Where(p => p.IsEnabled).Select(config =>
             {
-                IPart part = null;
+                IPart part;
                 if (!_availableParts.TryGetValue(config.Name, out part))
                 {
                     _log.Warn("Part not found: '{0}'", config.Name);
@@ -81,7 +78,7 @@ namespace NuBot
         private void Compose(IEnumerable<ComposablePartCatalog> partCatalogs)
         {
             // Set up a container
-            CompositionContainer container = new CompositionContainer(new AggregateCatalog(
+            var container = new CompositionContainer(new AggregateCatalog(
                 new AssemblyCatalog(typeof(RobotAssembler).Assembly),
                 new AggregateCatalog(partCatalogs)));
 

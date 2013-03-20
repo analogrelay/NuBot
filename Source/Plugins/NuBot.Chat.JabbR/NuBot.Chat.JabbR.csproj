@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="JabbR.Client">
+      <HintPath>..\..\..\ext\Debug\JabbR.Client.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
@@ -47,10 +50,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\ext\JabbR.Client\JabbR.Client\JabbR.Client.csproj">
-      <Project>{a4a1d183-fd80-4dbd-806f-883ddadd4967}</Project>
-      <Name>JabbR.Client</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\NuBot.Core\NuBot.Core.csproj">
       <Project>{ce1e271a-4703-487b-8982-c5296500127a}</Project>
       <Name>NuBot.Core</Name>

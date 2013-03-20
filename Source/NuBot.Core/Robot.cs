@@ -1,23 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using NLog;
 using NuBot.Configuration;
 using NuBot.Infrastructure;
-using Owin;
-using Owin.Builder;
 
 namespace NuBot
 {
     public class Robot : IRobot
     {
-        private Logger _logger;
+        private readonly Logger _logger;
         private RobotLog _log;
-        private CancellationTokenSource _cts = new CancellationTokenSource();
+        private readonly CancellationTokenSource _cts = new CancellationTokenSource();
 
         public IEnumerable<IPart> Parts { get; private set; }
         public string Name { get; private set; }
@@ -47,7 +41,6 @@ namespace NuBot
         {
             _logger.Trace("Starting Robot");
 
-            AppBuilder httpApp = new AppBuilder();
             foreach (var part in Parts)
             {
                 _logger.Info("Attaching Part: {0}", part.Name);

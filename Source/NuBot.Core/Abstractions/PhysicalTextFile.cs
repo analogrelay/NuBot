@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace NuBot.Abstractions
 {
     public class PhysicalTextFile : ITextFile
     {
-        private string _path;
+        private readonly string _path;
         
         public bool Exists
         {

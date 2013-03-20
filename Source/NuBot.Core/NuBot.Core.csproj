@@ -117,12 +117,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\ext\JabbR.Client\JabbR.Client\JabbR.Client.csproj">
-      <Project>{a4a1d183-fd80-4dbd-806f-883ddadd4967}</Project>
-      <Name>JabbR.Client</Name>
-    </ProjectReference>
-  </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\nuget.targets" />

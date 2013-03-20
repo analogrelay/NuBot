@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NLog;
+﻿using NLog;
 using NLog.Config;
 
 namespace NuBot.Infrastructure
@@ -14,15 +9,17 @@ namespace NuBot.Infrastructure
 
         private LogFactory CreateLogFactory()
         {
-            LoggingConfiguration config = new LoggingConfiguration();
+            var config = new LoggingConfiguration();
 
             // Targets
-            SnazzyConsoleTarget target = new SnazzyConsoleTarget();
-            target.Layout = "${message}";
+            var target = new SnazzyConsoleTarget
+            {
+                Layout = "${message}"
+            };
             config.AddTarget("console", target);
 
             // Rules
-            LoggingRule rule = new LoggingRule("*", LogLevel.Trace, target);
+            var rule = new LoggingRule("*", LogLevel.Trace, target);
             config.LoggingRules.Add(rule);
 
             // Create factory

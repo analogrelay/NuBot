@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using NLog;
 using NLog.Targets;
 
@@ -9,7 +8,7 @@ namespace NuBot.Infrastructure
 {
     public class SnazzyConsoleTarget : TargetWithLayout
     {
-        private static Dictionary<LogLevel, ColorPair> _colorTable = new Dictionary<LogLevel, ColorPair>()
+        private static readonly Dictionary<LogLevel, ColorPair> ColorTable = new Dictionary<LogLevel, ColorPair>()
         {
             { LogLevel.Debug, ColorPair.ForegroundOnly(ConsoleColor.Magenta) },
             { LogLevel.Error, ColorPair.ForegroundOnly(ConsoleColor.Red) },
@@ -19,7 +18,7 @@ namespace NuBot.Infrastructure
             { LogLevel.Warn, new ColorPair(ConsoleColor.Black, ConsoleColor.Yellow) }
         };
 
-        private static Dictionary<LogLevel, string> _levelNames = new Dictionary<LogLevel, string>() {
+        private static readonly Dictionary<LogLevel, string> LevelNames = new Dictionary<LogLevel, string>() {
             { LogLevel.Debug, "debug" },
             { LogLevel.Error, "error" },
             { LogLevel.Fatal, "fatal" },
@@ -28,7 +27,7 @@ namespace NuBot.Infrastructure
             { LogLevel.Warn, "warn" },
         };
 
-        private static int _levelLength = _levelNames.Values.Max(s => s.Length);
+        private static readonly int LevelLength = LevelNames.Values.Max(s => s.Length);
 
         protected override void Write(LogEventInfo logEvent)
         {
@@ -38,7 +37,7 @@ namespace NuBot.Infrastructure
 
             // Set colors
             ColorPair pair;
-            if (_colorTable.TryGetValue(logEvent.Level, out pair))
+            if (ColorTable.TryGetValue(logEvent.Level, out pair))
             {
                 if (pair.BackgroundColor != null)
                 {
@@ -52,11 +51,11 @@ namespace NuBot.Infrastructure
 
             // Get level string
             string levelName;
-            if (!_levelNames.TryGetValue(logEvent.Level, out levelName))
+            if (!LevelNames.TryGetValue(logEvent.Level, out levelName))
             {
                 levelName = logEvent.Level.ToString();
             }
-            levelName = levelName.PadRight(_levelLength).Substring(0, _levelLength);
+            levelName = levelName.PadRight(LevelLength).Substring(0, LevelLength);
 
             // Break the message in to lines as necessary
             var message = Layout.Render(logEvent);

@@ -10,7 +10,7 @@ namespace NuBot.Services
     {
         public static IEnumerable<string> Tokenize(string input)
         {
-            StringBuilder tokenBuilder = new StringBuilder();
+            var tokenBuilder = new StringBuilder();
             char? tokenStart = null;
             foreach (char chr in input)
             {

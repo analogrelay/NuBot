@@ -11,12 +11,12 @@ namespace NuBot.Chat.JabbR
 {
     public class JabbrListenerWorker
     {
-        private IRobot _robo;
-        private string[] _rooms;
-        private string _userName;
-        private JabbRClient _client;
-        private LogOnInfo _logOnInfo;
-        private string[] _robotNames;
+        private readonly IRobot _robo;
+        private readonly string[] _rooms;
+        private readonly string _userName;
+        private readonly JabbRClient _client;
+        private readonly LogOnInfo _logOnInfo;
+        private readonly string[] _robotNames;
 
         public JabbrListenerWorker(LogOnInfo logOnInfo, JabbRClient client, string[] rooms, IRobot robo, string[] robotNames, string userName)
         {
@@ -61,11 +61,7 @@ namespace NuBot.Chat.JabbR
             
             // Wait until terminated and disconnect
             token.Register(() => {
-                Task.WhenAll(_rooms.Select(s => _client.LeaveRoom(s)).ToArray()).ContinueWith(t =>
-                {
-                    // Always disconnect as gracefully as possible
-                    _client.Disconnect();
-                });
+                Task.WhenAll(_rooms.Select(s => _client.LeaveRoom(s)).ToArray()).ContinueWith(t => _client.Disconnect());
             });
         }
 
@@ -84,7 +80,7 @@ namespace NuBot.Chat.JabbR
         void _client_MessageReceived(Message message, string room)
         {
             // Process the message and put it on the bus
-            var tokens = MessageHelper.Tokenize(message.Content);
+            var tokens = MessageHelper.Tokenize(message.Content).ToList();
             var directedAtRobot = MessageHelper.IsDirectedAtRobot(tokens, _robotNames);
             _robo.Bus.Send(new ChatMessage(
                 directedAtRobot,

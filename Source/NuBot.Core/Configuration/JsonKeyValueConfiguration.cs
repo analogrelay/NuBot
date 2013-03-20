@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using Newtonsoft.Json.Linq;
 
@@ -15,11 +13,7 @@ namespace NuBot.Configuration
         public string GetSetting(string key)
         {
             string ret;
-            if (_settings.TryGetValue(key, out ret))
-            {
-                return ret;
-            }
-            return null;
+            return _settings.TryGetValue(key, out ret) ? ret : null;
         }
 
         protected void LoadNewSettings(JProperty settingsProperty)
@@ -31,7 +25,7 @@ namespace NuBot.Configuration
             Interlocked.Exchange(ref _settings, newSettings);
         }
 
-        private Dictionary<string, string> ParseKeyValuePairs(JProperty settingsProperty)
+        private static Dictionary<string, string> ParseKeyValuePairs(JProperty settingsProperty)
         {
             if (settingsProperty.Value.Type != JTokenType.Object)
             {

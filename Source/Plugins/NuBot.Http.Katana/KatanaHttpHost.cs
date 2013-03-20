@@ -2,7 +2,6 @@
 using System.ComponentModel.Composition;
 using Microsoft.Owin.Hosting;
 using Microsoft.Owin.Hosting.Settings;
-using NuBot.Configuration;
 using Owin;
 
 namespace NuBot.Http.Katana
@@ -23,12 +22,12 @@ namespace NuBot.Http.Katana
         public void StartServer(int port, IRobot robo, Action<IAppBuilder> app)
         {
             robo.Log.Info("Sharpening the Katana on port {0}...", port);
-            KatanaSettings settings = new KatanaSettings()
+            var settings = new KatanaSettings()
             {
                 DefaultPort = port,
                 LoaderFactory = () => _ => app
             };
-            KatanaEngine engine = new KatanaEngine(settings);
+            var engine = new KatanaEngine(settings);
             engine.Start(new StartContext());
             robo.Log.Info("Katana is listening on port {0}", port);
         }

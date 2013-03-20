@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NuBot.Abstractions;
@@ -13,7 +11,7 @@ namespace NuBot.Configuration
 {
     public class JsonRobotConfiguration : JsonKeyValueConfiguration, IRobotConfiguration
     {
-        private ITextFile _file;
+        private readonly ITextFile _file;
         private IEnumerable<IPartConfiguration> _parts = Enumerable.Empty<IPartConfiguration>();
 
         public IEnumerable<IPartConfiguration> Parts { get { return _parts; } }

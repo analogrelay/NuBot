@@ -1,16 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JabbR.Client", "ext\JabbR.Client\JabbR.Client\JabbR.Client.csproj", "{A4A1D183-FD80-4DBD-806F-883DDADD4967}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{5EC44E05-83F1-4E26-A9C4-613C35AD8431}"
 	ProjectSection(SolutionItems) = preProject
 		.nuget\NuGet.Config = .nuget\NuGet.Config
 		.nuget\NuGet.exe = .nuget\NuGet.exe
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ext", "ext", "{CFA57DAC-7D7A-4697-A3A6-6AEFC9BD5A8B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Source", "Source", "{632DF951-B754-47F5-AA1A-A50348F10CA7}"
 EndProject
@@ -30,18 +26,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuBot.Core", "Source\NuBot.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuBot", "Source\NuBot\NuBot.csproj", "{8ACE9FD3-0D2C-4BE3-8972-FA65C96C7D4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NuBot.NuGet.Deployment", "Source\Plugins\NuBot.NuGet.Deployment\NuBot.NuGet.Deployment.csproj", "{F84CA1CD-99FA-4A15-B831-4A32D91E1208}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A4A1D183-FD80-4DBD-806F-883DDADD4967}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A4A1D183-FD80-4DBD-806F-883DDADD4967}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A4A1D183-FD80-4DBD-806F-883DDADD4967}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A4A1D183-FD80-4DBD-806F-883DDADD4967}.Release|Any CPU.Build.0 = Release|Any CPU
 		{812B6EBF-0587-40B0-965B-32D743CAA6CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{812B6EBF-0587-40B0-965B-32D743CAA6CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{812B6EBF-0587-40B0-965B-32D743CAA6CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -66,23 +56,17 @@ Global
 		{8ACE9FD3-0D2C-4BE3-8972-FA65C96C7D4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8ACE9FD3-0D2C-4BE3-8972-FA65C96C7D4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8ACE9FD3-0D2C-4BE3-8972-FA65C96C7D4E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F84CA1CD-99FA-4A15-B831-4A32D91E1208}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F84CA1CD-99FA-4A15-B831-4A32D91E1208}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F84CA1CD-99FA-4A15-B831-4A32D91E1208}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F84CA1CD-99FA-4A15-B831-4A32D91E1208}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{A4A1D183-FD80-4DBD-806F-883DDADD4967} = {CFA57DAC-7D7A-4697-A3A6-6AEFC9BD5A8B}
 		{F47AC014-AA97-4953-9522-A75E6A0D880A} = {632DF951-B754-47F5-AA1A-A50348F10CA7}
 		{CE1E271A-4703-487B-8982-C5296500127A} = {632DF951-B754-47F5-AA1A-A50348F10CA7}
 		{8ACE9FD3-0D2C-4BE3-8972-FA65C96C7D4E} = {632DF951-B754-47F5-AA1A-A50348F10CA7}
 		{A4DF61C1-0BC4-4D19-AC42-C68AF8E12686} = {F47AC014-AA97-4953-9522-A75E6A0D880A}
 		{0C4FF756-A6D7-4104-B167-28E13FD05700} = {F47AC014-AA97-4953-9522-A75E6A0D880A}
 		{008FCE15-8653-4ECE-8DA5-C945E221AF72} = {F47AC014-AA97-4953-9522-A75E6A0D880A}
-		{F84CA1CD-99FA-4A15-B831-4A32D91E1208} = {F47AC014-AA97-4953-9522-A75E6A0D880A}
 		{812B6EBF-0587-40B0-965B-32D743CAA6CC} = {A698351F-E53B-4C7F-95C5-3AD3367EA88A}
 	EndGlobalSection
 EndGlobal
