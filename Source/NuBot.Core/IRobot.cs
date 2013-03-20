@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using NuBot.Abstractions;
 
 namespace NuBot
 {
@@ -10,6 +11,7 @@ namespace NuBot
     public interface IRobot
     {
         string Name { get; }
+        IConsole Console { get; }
         IMessageBus Bus { get; }
         IRobotLog Log { get; }
         IEnumerable<IPart> Parts { get; }

@@ -2,6 +2,7 @@
 using System.ComponentModel.Composition;
 using System.Threading;
 using System.Threading.Tasks;
+using NuBot.Abstractions;
 using NuBot.Messages;
 
 namespace NuBot.Parts
@@ -23,18 +24,18 @@ namespace NuBot.Parts
         {
             robo.Bus.On<SendChatMessage>(msg =>
             {
-                if (Console.CursorLeft != 0)
+                robo.Console.Synchronize(async c =>
                 {
-                    Console.WriteLine();
-                }
-                Console.WriteLine((msg.MeMessage ? "/me " : "") + msg.Message);
+                    await c.EnsureAtStartOfLineAsync();
+                    await c.WriteLineAsync((msg.MeMessage ? "/me " : "") + msg.Message);
+                });
             });
 
             await Task.Factory.StartNew(async () =>
             {
                 while (!token.IsCancellationRequested)
                 {
-                    string line = await Console.In.ReadLineAsync();
+                    string line = await robo.Console.ReadLineAsync();
                     robo.Bus.Send(new RawChatMessage(
                                       from: "user",
                                       room: "Console",

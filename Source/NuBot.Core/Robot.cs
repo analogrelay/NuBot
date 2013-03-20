@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using NLog;
+using NuBot.Abstractions;
 using NuBot.Configuration;
 using NuBot.Infrastructure;
 
@@ -13,6 +14,7 @@ namespace NuBot
         private RobotLog _log;
         private readonly CancellationTokenSource _cts = new CancellationTokenSource();
 
+        public IConsole Console { get; private set; }
         public IEnumerable<IPart> Parts { get; private set; }
         public string Name { get; private set; }
         public IMessageBus Bus { get; private set; }
@@ -25,7 +27,17 @@ namespace NuBot
             get { return _log ?? (_log = new RobotLog(_logger)); }
         }
 
-        public Robot(string name, ILogConfiguration logConfig, IRobotConfiguration configuration, IMessageBus bus, IEnumerable<IPart> parts, IHttpHost httpHost)
+        public Robot(string name,
+                     ILogConfiguration logConfig,
+                     IRobotConfiguration configuration,
+                     IMessageBus bus,
+                     IEnumerable<IPart> parts,
+                     IHttpHost httpHost) : this(
+                         name, logConfig, configuration, bus, parts, httpHost, new DefaultConsole())
+        {
+        }
+
+        public Robot(string name, ILogConfiguration logConfig, IRobotConfiguration configuration, IMessageBus bus, IEnumerable<IPart> parts, IHttpHost httpHost, IConsole console)
         {
             var loggerName = String.Format("Robot.{0}", name);
             _logger = logConfig.CreateLogger(loggerName);
@@ -35,6 +47,7 @@ namespace NuBot
             Parts = parts;
             HttpHost = httpHost;
             Bus = bus;
+            Console = console;
         }
 
         public void Start()

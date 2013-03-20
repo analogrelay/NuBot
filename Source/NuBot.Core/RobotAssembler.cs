@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using NLog;
+using NuBot.Abstractions;
 using NuBot.Configuration;
 using NuBot.Infrastructure;
 
@@ -42,10 +43,20 @@ namespace NuBot
 
         public IRobot CreateRobot()
         {
-            return CreateRobot(null);
+            return CreateRobot(null, new DefaultConsole());
         }
 
         public IRobot CreateRobot(string name)
+        {
+            return CreateRobot(name, new DefaultConsole());
+        }
+
+        public IRobot CreateRobot(IConsole console)
+        {
+            return CreateRobot(null, console);
+        }
+
+        public IRobot CreateRobot(string name, IConsole console)
         {
             // Get the robot name from config if not specified, use the default if that isn't specified either
             name = (name ?? _configuration.GetSetting("Name")) ?? DefaultRobotName;
@@ -81,7 +92,7 @@ namespace NuBot
             }).Where(p => p != null).ToArray();
 
             // Create the robot
-            return new Robot(name, _logConfiguiration, _configuration, new MessageBus(), selectedParts, selectedHttpHost);
+            return new Robot(name, _logConfiguiration, _configuration, new MessageBus(), selectedParts, selectedHttpHost, console);
         }
 
         private void Compose(IEnumerable<ComposablePartCatalog> partCatalogs)

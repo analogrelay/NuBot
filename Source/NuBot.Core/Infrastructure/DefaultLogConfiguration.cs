@@ -1,18 +1,25 @@
 ﻿using NLog;
 using NLog.Config;
+using NuBot.Abstractions;
 
 namespace NuBot.Infrastructure
 {
     public class DefaultLogConfiguration : ILogConfiguration
     {
         private LogFactory _logFactory;
+        private readonly IConsole _console;
+
+        public DefaultLogConfiguration(IConsole console)
+        {
+            _console = console;
+        }
 
         private LogFactory CreateLogFactory()
         {
             var config = new LoggingConfiguration();
 
             // Targets
-            var target = new SnazzyConsoleTarget
+            var target = new SnazzyConsoleTarget(_console)
             {
                 Layout = "${message}"
             };

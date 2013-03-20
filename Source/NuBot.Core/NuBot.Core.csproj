@@ -80,6 +80,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstractions\DefaultConsole.cs" />
+    <Compile Include="Abstractions\IConsole.cs" />
     <Compile Include="Abstractions\ITextFile.cs" />
     <Compile Include="Abstractions\PhysicalTextFile.cs" />
     <Compile Include="ColorPair.cs" />

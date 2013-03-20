@@ -49,7 +49,8 @@ namespace NuBot
             }
 
             // Set up logging
-            var logConfig = new DefaultLogConfiguration();
+            var console = new DefaultConsole();
+            var logConfig = new DefaultLogConfiguration(console);
 
             // Load config file
             var configFile = new PhysicalTextFile(configPath);
@@ -67,7 +68,7 @@ namespace NuBot
                 });
 
             // Make a NuBot!
-            var robot = assembler.CreateRobot();
+            var robot = assembler.CreateRobot(console);
 
             // Start the NuBot and wait for shutdown
             try
