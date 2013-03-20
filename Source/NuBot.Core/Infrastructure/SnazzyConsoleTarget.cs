@@ -31,6 +31,12 @@ namespace NuBot.Infrastructure
 
         protected override void Write(LogEventInfo logEvent)
         {
+            // Get us to the start of a line
+            if (Console.CursorLeft != 0)
+            {
+                Console.WriteLine();
+            }
+
             // Capture current colors
             ConsoleColor originalForeground = Console.ForegroundColor;
             ConsoleColor originalBackground = Console.BackgroundColor;

@@ -21,7 +21,16 @@ namespace NuBot.Parts
 
         public override async void Attach(IRobot robo, CancellationToken token)
         {
-            Task.Factory.StartNew(async () =>
+            robo.Bus.On<SendChatMessage>(msg =>
+            {
+                if (Console.CursorLeft != 0)
+                {
+                    Console.WriteLine();
+                }
+                Console.WriteLine((msg.MeMessage ? "/me " : "") + msg.Message);
+            });
+
+            await Task.Factory.StartNew(async () =>
             {
                 while (!token.IsCancellationRequested)
                 {
